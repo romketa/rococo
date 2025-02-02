@@ -15,7 +15,7 @@ spring:
       idle-timeout: 10000
       max-lifetime: 1000
       auto-commit: true
-    username: root
+    username: mysql
     password: secret
   flyway:
     enabled: true
@@ -48,3 +48,47 @@ rococo-front:
   base-uri: 'http://127.0.0.1:3000'
 rococo-auth:
   base-uri: 'http://127.0.0.1:9000'
+---
+spring:
+  config:
+    activate:
+      on-profile: 'local'
+  autoconfigure:
+    exclude:
+      - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
+      - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
+      - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
+  kafka:
+    bootstrap-servers: 'localhost:9092'
+  datasource:
+    url: 'jdbc:mysql://127.0.0.1:3306/rococo-auth?serverTimezone=UTC&createDatabaseIfNotExist=true'
+    username: mysql
+    password: secret
+rococo-front:
+  base-uri: 'http://127.0.0.1:3000'
+rococo-auth:
+  base-uri: 'http://127.0.0.1:9000'
+oauth2:
+  client-id: 'client'
+---
+spring:
+  config:
+    activate:
+      on-profile: 'docker'
+  autoconfigure:
+    exclude:
+      - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
+      - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
+      - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
+  kafka:
+    bootstrap-servers: 'kafka:9092'
+  datasource:
+    url: 'jdbc:postgresql://mysql:3306/rococo-auth'
+    username: postgres
+    password: secret
+niffler-front:
+  base-uri: 'http://frontend.rococo.dc'
+niffler-auth:
+  base-uri: 'http://auth.rococo.dc:9000'
+oauth2:
+  client-id: 'client'
