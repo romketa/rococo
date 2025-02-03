@@ -86,9 +86,9 @@ spring:
     url: 'jdbc:postgresql://mysql:3306/rococo-auth'
     username: postgres
     password: secret
-niffler-front:
+rococo-front:
   base-uri: 'http://frontend.rococo.dc'
-niffler-auth:
+rococo-auth:
   base-uri: 'http://auth.rococo.dc:9000'
 oauth2:
   client-id: 'client'
