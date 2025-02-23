@@ -1,5 +1,14 @@
 package guru.qa.rococo.data.repository;
 
-public interface MuseumRepository {
+import guru.qa.rococo.data.MuseumEntity;
+import jakarta.annotation.Nonnull;
+import java.util.Optional;
+import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MuseumRepository extends JpaRepository<MuseumEntity, UUID> {
+
+  @Nonnull
+  Optional<MuseumEntity> findByIdAndTitle(@Nonnull UUID id, @Nonnull String title);
 
 }
