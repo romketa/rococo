@@ -4,7 +4,8 @@ import guru.qa.rococo.service.PropertiesLogger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = {"controller", "service", "model", "repository"})
+@SpringBootApplication(scanBasePackages = {"controller", "service", "model", "repository", "config"})
+//@SpringBootApplication
 public class RococoGatewayApplication {
 
   public static void main(String[] args) {
@@ -12,5 +13,4 @@ public class RococoGatewayApplication {
     springApplication.addListeners(new PropertiesLogger());
     springApplication.run(args);
   }
-
 }

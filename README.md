@@ -1,5 +1,7 @@
 # Rococo
 
+должен быть установлена БД - docker run --name rococo -p 3306:3306 -e MYSQL_ROOT_USER: root -e MYSQL_ROOT_PASSWORD=secret -d mysql:8.0
+
   Приветствую тебя, мой дорогой студент!
 Если ты это читаешь - то ты собираешься сделать первый шаг в написании диплома QA.GURU Advanced.
 

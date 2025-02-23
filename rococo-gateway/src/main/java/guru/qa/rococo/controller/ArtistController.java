@@ -24,18 +24,18 @@ public class ArtistController {
     this.artistClient = artistClient;
   }
 
-  @GetMapping("/artist")
+  @GetMapping("/")
   public List<ArtistJson> getArtists() {
     return artistClient.getAllArtists();
   }
 
 
-  @GetMapping("/artist/{id}")
+  @GetMapping("/{id}")
   public ArtistJson getArtistById(@PathVariable UUID id) {
     return artistClient.getArtistById(id);
   }
 
-  @PatchMapping("/artist")
+  @PatchMapping("/")
   public ArtistJson editArtist(@RequestBody ArtistJson artistJson) {
     return artistClient.editArtist(artistJson);
   }
