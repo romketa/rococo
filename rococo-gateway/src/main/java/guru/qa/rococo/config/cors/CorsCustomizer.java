@@ -1,4 +1,4 @@
-package guru.qa.rococo.service.cors;
+package guru.qa.rococo.config.cors;
 
 import jakarta.annotation.Nonnull;
 import java.util.List;

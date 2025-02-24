@@ -2,7 +2,7 @@ package guru.qa.rococo.config;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-import guru.qa.rococo.service.cors.CorsCustomizer;
+import guru.qa.rococo.config.cors.CorsCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
