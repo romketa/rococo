@@ -18,6 +18,7 @@ HELP.md
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+logs
 
 ### IntelliJ IDEA ###
 .idea

@@ -9,6 +9,8 @@ import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,11 +24,9 @@ public class CountryClient {
   }
 
   @Nonnull
-  public List<CountryJson> getAllCountries() {
-    return countryRepository.findAll()
-        .stream()
-        .map(CountryJson::fromEntity)
-        .toList();
+  public Page<CountryJson> getAllCountries(@Nonnull Pageable pageable) {
+    return countryRepository.findAll(pageable)
+        .map(CountryJson::fromEntity);
   }
 
   @Nonnull

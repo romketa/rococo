@@ -2,9 +2,12 @@ package guru.qa.rococo.controller;
 
 import guru.qa.rococo.model.MuseumJson;
 import guru.qa.rococo.service.MuseumClient;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +26,10 @@ public class MuseumController {
     this.museumClient = museumClient;
   }
 
-  @GetMapping("/museum")
-  public List<MuseumJson> getMuseums() {
-    return museumClient.getAllMuseums();
+  @GetMapping()
+  public Page<MuseumJson> getMuseums(@Nonnull Pageable pageable) {
+    return museumClient.getAllMuseums(pageable);
   }
-
 
   @GetMapping("/museum/{id}")
   public MuseumJson getMuseumById(@PathVariable UUID id) {

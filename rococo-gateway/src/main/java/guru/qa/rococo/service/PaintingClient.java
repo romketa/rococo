@@ -22,11 +22,9 @@ public class PaintingClient {
   }
 
   @Nonnull
-  public List<PaintingJson> getAllPaintings() {
-    return paintingRepository.findAll()
-        .stream()
-        .map(PaintingJson::fromEntity)
-        .toList();
+  public Page<PaintingJson> getAllPaintings(@Nonnull Pageable pageable) {
+    return paintingRepository.findAll(pageable)
+        .map(PaintingJson::fromEntity);
   }
 
   @Nonnull

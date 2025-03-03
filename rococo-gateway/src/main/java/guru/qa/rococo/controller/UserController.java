@@ -29,7 +29,7 @@ public class UserController {
     this.userDataClient = userDataClient;
   }
 
-  @GetMapping("/current")
+  @GetMapping("")
   public UserJson currentUser(@AuthenticationPrincipal Jwt principal) {
     String username = principal.getClaim("sub");
     return userDataClient.currentUser(username);

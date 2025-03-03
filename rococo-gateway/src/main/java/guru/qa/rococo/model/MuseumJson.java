@@ -2,9 +2,9 @@ package guru.qa.rococo.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import guru.qa.rococo.data.CountryEntity;
 import guru.qa.rococo.data.MuseumEntity;
 import jakarta.annotation.Nonnull;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public record MuseumJson(
@@ -18,7 +18,7 @@ public record MuseumJson(
     String description,
 
     @JsonProperty("photo")
-    byte[] photo,
+    String photo,
 
     @JsonProperty("geo")
     Geo geo
@@ -30,7 +30,8 @@ public record MuseumJson(
         entity.getId(),
         entity.getTitle(),
         entity.getDescription(),
-        entity.getPhoto(),
+        entity.getPhoto() != null && entity.getPhoto().length > 0 ? new String(entity.getPhoto(),
+            StandardCharsets.UTF_8) : null,
         new Geo("Москва", country)
     );
   }

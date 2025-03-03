@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-@ConditionalOnProperty(prefix = "rococo-userdata", name = "client", havingValue = "rest")
 public class UserDataClient {
 
   private final RestTemplate restTemplate;

@@ -19,7 +19,6 @@ spring:
     enabled: true
     baseline-on-migrate: true
     baseline-version: 0
-    schemas: rococo-gateway
     locations: classpath:db/migration/rococo-gateway
   jpa:
     hibernate:
@@ -59,3 +58,5 @@ rococo-front:
   base-uri: 'http://127.0.0.1:3000'
 rococo-auth:
   base-uri: 'http://127.0.0.1:9000'
+rococo-userdata:
+  base-uri: 'http://127.0.0.1:8089'

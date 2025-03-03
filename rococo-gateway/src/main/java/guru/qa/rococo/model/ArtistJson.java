@@ -3,7 +3,7 @@ package guru.qa.rococo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import guru.qa.rococo.data.ArtistEntity;
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.Column;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public record ArtistJson
@@ -15,7 +15,7 @@ public record ArtistJson
         @JsonProperty("biography")
         String biography,
         @JsonProperty("photo")
-        byte[] photo
+        String photo
     ) {
 
   public static @Nonnull ArtistJson fromEntity(@Nonnull ArtistEntity entity) {
@@ -23,6 +23,7 @@ public record ArtistJson
         entity.getId(),
         entity.getName(),
         entity.getBiography(),
-        entity.getPhoto());
+        entity.getPhoto() != null && entity.getPhoto().length > 0 ? new String(entity.getPhoto(),
+            StandardCharsets.UTF_8) : null);
   }
 }

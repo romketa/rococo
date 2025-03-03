@@ -4,8 +4,7 @@ import guru.qa.rococo.service.PropertiesLogger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = {"controller", "service", "model", "repository", "config"})
-//@SpringBootApplication
+@SpringBootApplication
 public class RococoGatewayApplication {
 
   public static void main(String[] args) {

@@ -2,9 +2,12 @@ package guru.qa.rococo.controller;
 
 import guru.qa.rococo.model.CountryJson;
 import guru.qa.rococo.service.CountryClient;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +26,9 @@ public class CountryController {
     this.countryClient = countryClient;
   }
 
-  @GetMapping("/country")
-  public List<CountryJson> getCountries() {
-    return countryClient.getAllCountries();
+  @GetMapping()
+  public Page<CountryJson> getCountries(@Nonnull Pageable pageable) {
+    return countryClient.getAllCountries(pageable);
   }
 
 

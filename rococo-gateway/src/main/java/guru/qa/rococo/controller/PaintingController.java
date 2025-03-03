@@ -26,9 +26,9 @@ public class PaintingController {
     this.paintingClient = paintingClient;
   }
 
-  @GetMapping("/painting")
-  public List<PaintingJson> getPaintings() {
-    return paintingClient.getAllPaintings();
+  @GetMapping()
+  public Page<PaintingJson> getPaintings(@PageableDefault Pageable pageable) {
+    return paintingClient.getAllPaintings(pageable);
   }
 
 

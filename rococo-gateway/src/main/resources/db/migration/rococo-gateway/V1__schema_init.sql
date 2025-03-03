@@ -1,13 +1,3 @@
-create table if not exists `user`
-(
-    id        binary(16)   unique not null default (UUID_TO_BIN(UUID(), true)),
-    username  varchar(50)  unique not null,
-    firstname varchar(255),
-    lastname  varchar(255),
-    avatar    longblob,
-    primary key (id)
-    );
-
 create table if not exists `country`
 (
     id        binary(16)    unique not null default (UUID_TO_BIN(UUID(), true)),
@@ -49,7 +39,6 @@ create table if not exists `painting`
     constraint fk_museum_id foreign key (museum_id) references `museum` (id)
     );
 
-delete from `rococo-gateway`.`user`;
 delete from `rococo-gateway`.`painting`;
 delete from `rococo-gateway`.`artist`;
 delete from `rococo-gateway`.`museum`;
