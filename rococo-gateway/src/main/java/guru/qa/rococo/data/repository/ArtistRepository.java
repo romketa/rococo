@@ -15,4 +15,7 @@ public interface ArtistRepository extends JpaRepository<ArtistEntity, UUID> {
 
   @Nonnull
   Page<ArtistEntity> findAll(@Nonnull Pageable pageable);
+
+  @Nonnull
+  Optional<ArtistEntity> findByName(@Nonnull String name);
 }

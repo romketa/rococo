@@ -32,12 +32,12 @@ public class CountryController {
   }
 
 
-  @GetMapping("/country/{id}")
+  @GetMapping("/{id}")
   public CountryJson getCountryById(@PathVariable UUID id) {
     return countryClient.getCountryById(id);
   }
 
-  @PatchMapping("/country")
+  @PatchMapping()
   public CountryJson editCountry(@RequestBody CountryJson CountryJson) {
     return countryClient.editCountry(CountryJson);
   }

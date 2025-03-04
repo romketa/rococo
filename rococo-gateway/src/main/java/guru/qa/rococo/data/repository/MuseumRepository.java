@@ -17,4 +17,6 @@ public interface MuseumRepository extends JpaRepository<MuseumEntity, UUID> {
   @Nonnull
   Page<MuseumEntity> findAll(@Nonnull Pageable pageable);
 
+  @Nonnull
+  Optional<MuseumEntity> findByTitle(@Nonnull String title);
 }

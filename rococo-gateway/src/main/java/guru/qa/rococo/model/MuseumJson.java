@@ -21,18 +21,17 @@ public record MuseumJson(
     String photo,
 
     @JsonProperty("geo")
-    Geo geo
+    GeoJson geo
 ) {
 
-  public static @Nonnull MuseumJson fromEntity(@Nonnull MuseumEntity entity) {
-    final CountryJson country = CountryJson.fromEntity(entity.getCountryEntity());
+  public static @Nonnull MuseumJson fromEntity(@Nonnull MuseumEntity entity, @Nonnull CountryJson countryJson) {
     return new MuseumJson(
         entity.getId(),
         entity.getTitle(),
         entity.getDescription(),
         entity.getPhoto() != null && entity.getPhoto().length > 0 ? new String(entity.getPhoto(),
             StandardCharsets.UTF_8) : null,
-        new Geo("Москва", country)
+        new GeoJson(entity.getCity(), countryJson)
     );
   }
 }

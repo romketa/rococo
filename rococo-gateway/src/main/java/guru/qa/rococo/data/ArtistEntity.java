@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
@@ -20,16 +21,17 @@ import org.hibernate.proxy.HibernateProxy;
 public class ArtistEntity implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id", nullable = false, columnDefinition = "UUID default gen_random_uuid()")
+  @Column(name = "id", nullable = false, columnDefinition = "BINARY(16) DEFAULT (UUID_TO_BIN(UUID()))")
   private UUID id;
 
   @Column(name = "name", nullable = false)
   private String name;
 
-  @Column(name = "biography")
+  @Column(name = "biography", columnDefinition = "text")
   private String biography;
 
-  @Column(name = "photo")
+  @Lob
+  @Column(name = "photo", columnDefinition = "LONGBLOB")
   private byte[] photo;
 
   @Override

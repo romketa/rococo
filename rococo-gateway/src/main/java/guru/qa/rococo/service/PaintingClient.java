@@ -1,20 +1,32 @@
 package guru.qa.rococo.service;
 
+import guru.qa.rococo.data.ArtistEntity;
+import guru.qa.rococo.data.CountryEntity;
+import guru.qa.rococo.data.MuseumEntity;
+import guru.qa.rococo.data.PaintingEntity;
 import guru.qa.rococo.data.repository.PaintingRepository;
+import guru.qa.rococo.ex.EntityAlreadyExistsException;
 import guru.qa.rococo.ex.MuseumNotFoundException;
+import guru.qa.rococo.model.ArtistJson;
+import guru.qa.rococo.model.MuseumJson;
 import guru.qa.rococo.model.PaintingJson;
 import jakarta.annotation.Nonnull;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class PaintingClient {
 
   PaintingRepository paintingRepository;
+  private static final Logger LOG = LoggerFactory.getLogger(PaintingClient.class);
 
   @Autowired
   public PaintingClient(PaintingRepository paintingRepository) {
@@ -28,8 +40,8 @@ public class PaintingClient {
   }
 
   @Nonnull
-  public Page<PaintingJson> getPaintingByArtist(@Nonnull Pageable pageable, @Nonnull UUID id) {
-    return paintingRepository.findByArtist(pageable, id)
+  public Page<PaintingJson> getPaintingByArtistId(@Nonnull Pageable pageable, @Nonnull UUID id) {
+    return paintingRepository.findByArtistId(pageable, id)
         .map(PaintingJson::fromEntity);
   }
 
@@ -38,5 +50,29 @@ public class PaintingClient {
     return paintingRepository.findById(id)
         .map(PaintingJson::fromEntity)
         .orElseThrow(() -> new MuseumNotFoundException("Museum not found"));
+  }
+
+  @Nonnull
+  public PaintingJson addPainting(@Nonnull PaintingJson paintingJson) {
+    return PaintingJson.fromEntity(this.save(paintingJson));
+  }
+
+  @Nonnull
+  @Transactional
+  PaintingEntity save(@Nonnull PaintingJson painting) {
+    final String title = painting.title();
+
+    paintingRepository.findByTitle(title).ifPresent(ae -> {
+      LOG.error("### Can`t add already exist painting with title: {}", title);
+      throw new EntityAlreadyExistsException("Can`t add already exist painting with title: '" + title + "'");
+    });
+
+    PaintingEntity me = new PaintingEntity();
+    me.setTitle(title);
+    me.setDescription(painting.description());
+    me.setContent(painting.content().getBytes(StandardCharsets.UTF_8));
+    me.setArtistId(painting.artistJson().id());
+    me.setMuseumId(painting.museumJson().id());
+    return paintingRepository.save(me);
   }
 }

@@ -2,14 +2,11 @@ package guru.qa.rococo.service;
 
 import guru.qa.rococo.data.ArtistEntity;
 import guru.qa.rococo.data.repository.ArtistRepository;
-import guru.qa.rococo.ex.ArtistAlreadyExistsException;
+import guru.qa.rococo.ex.EntityAlreadyExistsException;
 import guru.qa.rococo.ex.ArtistNotFoundException;
 import guru.qa.rococo.model.ArtistJson;
 import jakarta.annotation.Nonnull;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import org.apache.kafka.shaded.com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +63,13 @@ public class ArtistClient {
   @Nonnull
   @Transactional
   ArtistEntity save(@Nonnull ArtistJson artist) {
+    final String artistName = artist.name();
+
+    artistRepository.findByName(artistName).ifPresent(ae -> {
+      LOG.error("### Can`t add already exist artist with name: {}", artistName);
+      throw new EntityAlreadyExistsException("Can`t add already exist artist with name: '" + artistName + "'");
+    });
+
     ArtistEntity ae = new ArtistEntity();
     ae.setName(artist.name());
     ae.setPhoto(artist.photo().getBytes());

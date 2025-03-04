@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,13 +32,18 @@ public class MuseumController {
     return museumClient.getAllMuseums(pageable);
   }
 
-  @GetMapping("/museum/{id}")
+  @GetMapping("/{id}")
   public MuseumJson getMuseumById(@PathVariable UUID id) {
     return museumClient.getMuseumById(id);
   }
 
-  @PatchMapping("/museum")
+  @PatchMapping()
   public MuseumJson editMuseum(@RequestBody MuseumJson museumJson) {
     return museumClient.editMuseum(museumJson);
+  }
+
+  @PostMapping()
+  public MuseumJson addMuseum(@RequestBody MuseumJson museumJson) {
+    return museumClient.addMuseum(museumJson);
   }
 }

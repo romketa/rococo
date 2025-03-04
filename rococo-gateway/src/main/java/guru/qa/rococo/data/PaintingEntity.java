@@ -1,5 +1,6 @@
 package guru.qa.rococo.data;
 
+import static jakarta.persistence.CascadeType.MERGE;
 import static jakarta.persistence.CascadeType.PERSIST;
 
 import jakarta.persistence.Column;
@@ -9,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -26,7 +28,7 @@ public class PaintingEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id", nullable = false, columnDefinition = "UUID default gen_random_uuid()")
+  @Column(name = "id", nullable = false, columnDefinition = "BINARY(16) DEFAULT (UUID_TO_BIN(UUID()))")
   private UUID id;
 
   @Column(name = "title", nullable = false)
@@ -35,16 +37,15 @@ public class PaintingEntity {
   @Column(name = "description")
   private String description;
 
-  @Column(name = "content", nullable = false)
+  @Lob
+  @Column(name = "content", columnDefinition = "LONGBLOB", nullable = false)
   private byte[] content;
 
-  @ManyToOne(fetch = FetchType.EAGER, cascade = PERSIST)
-  @JoinColumn(name = "museum_id", referencedColumnName = "id")
-  private MuseumEntity museum;
+  @Column(name = "museum_id")
+  private UUID museumId;
 
-  @ManyToOne(fetch = FetchType.EAGER, cascade = PERSIST)
-  @JoinColumn(name = "artist_id", referencedColumnName = "id")
-  private ArtistEntity artist;
+  @Column(name = "artist_id")
+  private UUID artistId;
   @Override
   public final boolean equals(Object o) {
     if (this == o) {

@@ -1,5 +1,6 @@
 package guru.qa.rococo.controller;
 
+import guru.qa.rococo.model.MuseumJson;
 import guru.qa.rococo.model.PaintingJson;
 import guru.qa.rococo.service.PaintingClient;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,14 +34,19 @@ public class PaintingController {
   }
 
 
-  @GetMapping("/painting/author/{id}")
+  @GetMapping("/author/{id}")
   public Page<PaintingJson> getPaintingByAuthor(@PageableDefault Pageable pageable,
       @PathVariable UUID id) {
-    return paintingClient.getPaintingByArtist(pageable, id);
+    return paintingClient.getPaintingByArtistId(pageable, id);
   }
 
-  @GetMapping("/painting/{id}")
+  @GetMapping("/{id}")
   public PaintingJson getPaintingById(@PathVariable UUID id) {
     return paintingClient.getPaintingById(id);
+  }
+
+  @PostMapping
+  public PaintingJson addPainting(@RequestBody PaintingJson paintingJson) {
+    return paintingClient.addPainting(paintingJson);
   }
 }

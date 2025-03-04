@@ -1,5 +1,7 @@
 package guru.qa.rococo.data;
 
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.CascadeType.MERGE;
 import static jakarta.persistence.CascadeType.PERSIST;
 
 import guru.qa.rococo.model.CountryJson;
@@ -10,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -27,7 +30,7 @@ public class MuseumEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id", nullable = false, columnDefinition = "UUID default gen_random_uuid()")
+  @Column(name = "id", nullable = false, columnDefinition = "BINARY(16) DEFAULT (UUID_TO_BIN(UUID()))")
   private UUID id;
 
   @Column(name = "title", nullable = false)
@@ -36,12 +39,15 @@ public class MuseumEntity {
   @Column(name = "description")
   private String description;
 
-  @Column(name = "photo", nullable = false)
+  @Column(nullable = false)
+  private String city;
+
+  @Lob
+  @Column(name = "photo", columnDefinition = "LONGBLOB", nullable = false)
   private byte[] photo;
 
-  @ManyToOne(fetch = FetchType.EAGER, cascade = PERSIST)
-  @JoinColumn(name = "country_id", referencedColumnName = "id")
-  private CountryEntity countryEntity;
+  @Column(name = "country_id")
+  private UUID countryId;
 
   @Override
   public final boolean equals(Object o) {
