@@ -46,6 +46,7 @@ public class PaintingEntity {
 
   @Column(name = "artist_id")
   private UUID artistId;
+
   @Override
   public final boolean equals(Object o) {
     if (this == o) {

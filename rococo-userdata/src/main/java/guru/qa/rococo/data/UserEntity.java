@@ -27,10 +27,10 @@ public class UserEntity implements Serializable {
   @Column(name = "username", nullable = false, unique = true)
   private String username;
 
-  @Column(name = "firstname", nullable = false)
+  @Column(name = "firstname")
   private String firstname;
 
-  @Column(name = "lastname", nullable = false)
+  @Column(name = "lastname")
   private String lastname;
 
   @Column(name = "avatar", columnDefinition = "LONGBLOB")

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/session")
 public class SessionController {
 
-  @GetMapping("")
+  @GetMapping()
   public SessionJson session(@AuthenticationPrincipal Jwt principal) {
     if (principal != null) {
       return new SessionJson(
@@ -24,5 +24,4 @@ public class SessionController {
       return SessionJson.empty();
     }
   }
-
 }
