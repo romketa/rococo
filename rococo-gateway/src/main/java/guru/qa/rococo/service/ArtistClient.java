@@ -2,11 +2,15 @@ package guru.qa.rococo.service;
 
 import guru.qa.rococo.data.ArtistEntity;
 import guru.qa.rococo.data.repository.ArtistRepository;
-import guru.qa.rococo.ex.EntityAlreadyExistsException;
 import guru.qa.rococo.ex.ArtistNotFoundException;
+import guru.qa.rococo.ex.EntityAlreadyExistsException;
 import guru.qa.rococo.model.ArtistJson;
 import jakarta.annotation.Nonnull;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +71,8 @@ public class ArtistClient {
 
     artistRepository.findByName(artistName).ifPresent(ae -> {
       LOG.error("### Can`t add already exist artist with name: {}", artistName);
-      throw new EntityAlreadyExistsException("Can`t add already exist artist with name: '" + artistName + "'");
+      throw new EntityAlreadyExistsException(
+          "Can`t add already exist artist with name: '" + artistName + "'");
     });
 
     ArtistEntity ae = new ArtistEntity();
@@ -75,5 +80,20 @@ public class ArtistClient {
     ae.setPhoto(artist.photo().getBytes());
     ae.setBiography(artist.biography());
     return artistRepository.save(ae);
+  }
+
+  @Nonnull
+  public List<ArtistJson> getArtistByIds(Set<UUID> id) {
+    return artistRepository.findAllById(id)
+        .stream()
+        .map(me -> {
+          return new ArtistJson(
+              me.getId(),
+              me.getName(),
+              me.getBiography(),
+              me.getPhoto() != null && me.getPhoto().length > 0 ? new String(
+                  me.getPhoto(),
+                  StandardCharsets.UTF_8) : null);
+        }).collect(Collectors.toList());
   }
 }

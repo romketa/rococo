@@ -5,11 +5,16 @@ import guru.qa.rococo.data.MuseumEntity;
 import guru.qa.rococo.data.repository.MuseumRepository;
 import guru.qa.rococo.ex.EntityAlreadyExistsException;
 import guru.qa.rococo.ex.MuseumNotFoundException;
+import guru.qa.rococo.model.ArtistJson;
 import guru.qa.rococo.model.CountryJson;
+import guru.qa.rococo.model.GeoJson;
 import guru.qa.rococo.model.MuseumJson;
 import jakarta.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +54,23 @@ public class MuseumClient {
         .map(museumEntity -> MuseumJson.fromEntity(museumEntity,
             getCountryById(museumEntity)))
         .orElseThrow(() -> new MuseumNotFoundException("Museum not found"));
+  }
+
+  @Nonnull
+  public List<MuseumJson> getMuseumByIds(Set<UUID> id) {
+    return museumRepository.findAllById(id)
+        .stream()
+        .map(me -> {
+          return new MuseumJson(
+              me.getId(),
+              me.getTitle(),
+              me.getDescription(),
+              me.getPhoto() != null && me.getPhoto().length > 0 ? new String(
+                  me.getPhoto(),
+                  StandardCharsets.UTF_8) : null,
+              new GeoJson(me.getCity(), getCountryById(me))
+          );
+        }).collect(Collectors.toList());
   }
 
   @Nonnull

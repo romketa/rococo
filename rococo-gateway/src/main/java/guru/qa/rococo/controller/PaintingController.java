@@ -1,9 +1,7 @@
 package guru.qa.rococo.controller;
 
-import guru.qa.rococo.model.MuseumJson;
 import guru.qa.rococo.model.PaintingJson;
 import guru.qa.rococo.service.PaintingClient;
-import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,7 +35,7 @@ public class PaintingController {
   @GetMapping("/author/{id}")
   public Page<PaintingJson> getPaintingByAuthor(@PageableDefault Pageable pageable,
       @PathVariable UUID id) {
-    return paintingClient.getPaintingByArtistId(pageable, id);
+    return paintingClient.getPaintingByArtist(pageable, id);
   }
 
   @GetMapping("/{id}")
@@ -52,6 +50,6 @@ public class PaintingController {
 
   @PatchMapping
   public PaintingJson editPainting(@RequestBody PaintingJson paintingJson) {
-    return paintingClient.addPainting(paintingJson);
+    return paintingClient.editPainting(paintingJson);
   }
 }

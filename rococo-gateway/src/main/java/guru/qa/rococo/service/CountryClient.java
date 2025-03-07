@@ -48,5 +48,4 @@ public class CountryClient {
         "Can`t find country by given id: " + country.id()
     ));
   }
-
 }
