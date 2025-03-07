@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ArtistRepository extends JpaRepository<ArtistEntity, UUID> {
 
   @Nonnull
-  Optional<ArtistEntity> findByIdAndName(@Nonnull UUID id, @Nonnull String name);
+  Optional<ArtistEntity> findById(@Nonnull UUID id);
 
   @Nonnull
   Page<ArtistEntity> findAll(@Nonnull Pageable pageable);

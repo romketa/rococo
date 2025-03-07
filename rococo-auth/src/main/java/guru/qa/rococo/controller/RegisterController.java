@@ -32,12 +32,15 @@ public class RegisterController {
 
   private final UserService userService;
   private final String rococoFrontUri;
+  private final String rococoAuthUri;
 
   @Autowired
   public RegisterController(UserService userService,
-                            @Value("${rococo-front.base-uri}") String rococoFrontUri) {
+                            @Value("${rococo-front.base-uri}") String rococoFrontUri,
+                            @Value("${rococo-auth.base-uri}") String rococoAuthUri) {
     this.userService = userService;
     this.rococoFrontUri = rococoFrontUri;
+    this.rococoAuthUri = rococoAuthUri;
   }
 
   @GetMapping("/register")
@@ -73,7 +76,7 @@ public class RegisterController {
     } else {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
-    model.addAttribute(MODEL_FRONT_URI_ATTR, rococoFrontUri + "/main");
+    model.addAttribute(MODEL_FRONT_URI_ATTR, rococoAuthUri + "/login");
     return REGISTRATION_VIEW_NAME;
   }
 

@@ -42,7 +42,7 @@ public class ArtistClient {
 
   @Nonnull
   public ArtistJson editArtist(ArtistJson artist) {
-    return artistRepository.findByIdAndName(artist.id(), artist.name()).map(
+    return artistRepository.findById(artist.id()).map(
         artistEntity -> {
           artistEntity.setId(artist.id());
           artistEntity.setName(artist.name());

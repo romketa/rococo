@@ -53,6 +53,22 @@ public class PaintingClient {
   }
 
   @Nonnull
+  public PaintingJson editPainting(@Nonnull PaintingJson painting) {
+    return paintingRepository.findById(painting.id()).map(
+            paintingEntity -> {
+              paintingEntity.setId(painting.id());
+              paintingEntity.setTitle(painting.title());
+              paintingEntity.setDescription(painting.description());
+              paintingEntity.setPhoto(painting.content().getBytes(StandardCharsets.UTF_8));
+              return PaintingJson.fromEntity(paintingRepository.save(paintingEntity),
+                      getCountryById(paintingEntity));
+            }
+    ).orElseThrow(() -> new MuseumNotFoundException(
+            "Can`t find painting by given id: " + museum.id()
+    ));
+  }
+
+  @Nonnull
   public PaintingJson addPainting(@Nonnull PaintingJson paintingJson) {
     return PaintingJson.fromEntity(this.save(paintingJson));
   }

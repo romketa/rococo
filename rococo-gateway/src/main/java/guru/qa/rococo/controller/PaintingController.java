@@ -49,4 +49,9 @@ public class PaintingController {
   public PaintingJson addPainting(@RequestBody PaintingJson paintingJson) {
     return paintingClient.addPainting(paintingJson);
   }
+
+  @PatchMapping
+  public PaintingJson editPainting(@RequestBody PaintingJson paintingJson) {
+    return paintingClient.addPainting(paintingJson);
+  }
 }

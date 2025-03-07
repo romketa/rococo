@@ -53,11 +53,12 @@ public class MuseumClient {
 
   @Nonnull
   public MuseumJson editMuseum(MuseumJson museum) {
-    return museumRepository.findByIdAndTitle(museum.id(), museum.title()).map(
+    return museumRepository.findById(museum.id()).map(
         museumEntity -> {
           museumEntity.setId(museum.id());
           museumEntity.setTitle(museum.title());
           museumEntity.setDescription(museum.description());
+          museumEntity.setCity(museum.geo().city());
           museumEntity.setPhoto(museum.photo().getBytes(StandardCharsets.UTF_8));
           return MuseumJson.fromEntity(museumRepository.save(museumEntity),
               getCountryById(museumEntity));
