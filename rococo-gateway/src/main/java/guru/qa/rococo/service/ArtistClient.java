@@ -19,14 +19,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+//@Component
 public class ArtistClient {
 
   ArtistRepository artistRepository;
   private static final Logger LOG = LoggerFactory.getLogger(ArtistClient.class);
 
 
-  @Autowired
+//  @Autowired
   public ArtistClient(ArtistRepository artistRepository) {
     this.artistRepository = artistRepository;
   }

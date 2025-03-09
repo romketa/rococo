@@ -2,4 +2,6 @@ rootProject.name = 'rococo'
 include 'rococo-gateway'
 include 'rococo-auth'
 include 'rococo-userdata'
+include 'rococo-artist'
+include 'rococo-grpc-common'
 

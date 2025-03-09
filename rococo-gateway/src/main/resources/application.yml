@@ -2,6 +2,10 @@ server:
   port: 8080
 
 spring:
+  grpc:
+    security:
+      auth:
+        enabled: false
   application:
     name: rococo-gateway
   datasource:
@@ -54,6 +58,15 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: 'http://127.0.0.1:9000'
+
+  grpc:
+    client:
+      channels:
+        grpcArtistClient:
+          address: 'static://localhost:8091'
+          negotiationType: PLAINTEXT
+          max-inbound-message-size: 50MB
+
 rococo-front:
   base-uri: 'http://127.0.0.1:3000'
 rococo-auth:
