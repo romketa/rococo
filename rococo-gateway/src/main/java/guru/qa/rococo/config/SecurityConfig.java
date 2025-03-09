@@ -5,8 +5,13 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 import guru.qa.rococo.config.cors.CorsCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.grpc.server.service.DefaultGrpcServiceConfigurer;
+import org.springframework.grpc.server.service.DefaultGrpcServiceDiscoverer;
+import org.springframework.grpc.server.service.GrpcServiceConfigurer;
+import org.springframework.grpc.server.service.GrpcServiceDiscoverer;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,5 +56,15 @@ public class SecurityConfig {
   @Bean
   public RestTemplate restTemplate(RestTemplateBuilder builder) {
     return builder.build();
+  }
+
+  @Bean
+  public GrpcServiceDiscoverer grpcServiceDiscoverer(GrpcServiceConfigurer serviceConfigure, ApplicationContext applicationContext) {
+    return new DefaultGrpcServiceDiscoverer(serviceConfigure, applicationContext);
+  }
+
+  @Bean
+  public GrpcServiceConfigurer grpcServiceConfigurer(ApplicationContext applicationContext) {
+    return new DefaultGrpcServiceConfigurer(applicationContext);
   }
 }

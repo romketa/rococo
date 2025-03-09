@@ -7,10 +7,34 @@ plugins {
 group = 'guru.qa.rococo'
 version = '1.0.0'
 
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.grpc:spring-grpc-dependencies:0.4.0-SNAPSHOT'
+	}
+}
+
+
 dependencies {
+	implementation project(':rococo-grpc-common')
+
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.grpc:spring-grpc-client-spring-boot-starter'
+//	implementation "org.springframework.grpc:spring-grpc-spring-boot-starter"
+	implementation 'io.grpc:grpc-netty-shaded'
+	modules {
+		module("io.grpc:grpc-netty") {
+			replacedBy("io.grpc:grpc-netty-shaded", "Use Netty shaded instead of regular Netty")
+		}
+	}
+	implementation 'org.springframework.experimental.boot:spring-boot-testjars-maven:0.0.3'
 	implementation('org.springframework.boot:spring-boot-starter-web-services') {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
 	}
@@ -26,8 +50,11 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'com.h2database:h2:2.2.224'
-}
+	implementation 'io.projectreactor.netty:reactor-netty'
 
+	implementation "com.google.protobuf:protobuf-java:${project.ext.protobufVersion}"
+	implementation "com.google.protobuf:protobuf-java-util:${project.ext.protobufVersion}"
+}
 
 tasks.named('test') {
 	useJUnitPlatform()

@@ -28,16 +28,16 @@ public class PaintingClient {
 
   private final PaintingRepository paintingRepository;
   private final MuseumClient museumClient;
-  private final ArtistClient artistClient;
+//  private final ArtistClient artistClient;
 
   private static final Logger LOG = LoggerFactory.getLogger(PaintingClient.class);
 
   @Autowired
-  public PaintingClient(PaintingRepository paintingRepository, MuseumClient museumClient,
-      ArtistClient artistClient) {
+  public PaintingClient(PaintingRepository paintingRepository, MuseumClient museumClient) {
+//      ArtistClient artistClient) {
     this.paintingRepository = paintingRepository;
     this.museumClient = museumClient;
-    this.artistClient = artistClient;
+//    this.artistClient = artistClient;
   }
 
   @Nonnull
@@ -113,7 +113,7 @@ public class PaintingClient {
 
   private void completePaintingData(@Nonnull PaintingJson painting) {
     painting.setMuseum(museumClient.getMuseumById(painting.getMuseum().id()));
-    painting.setArtist(artistClient.getArtistById(painting.getArtist().id()));
+//    painting.setArtist(artistClient.getArtistById(painting.getArtist().id()));
   }
 
   private void completePaintingData(@Nonnull List<PaintingJson> paintingList) {
@@ -125,7 +125,7 @@ public class PaintingClient {
         .collect(Collectors.toSet());
 
     List<MuseumJson> museums = museumClient.getMuseumByIds(museumIds);
-    List<ArtistJson> artists = artistClient.getArtistByIds(artistIds);
+//    List<ArtistJson> artists = artistClient.getArtistByIds(artistIds);
 
     paintingList.forEach(museum -> {
       UUID museumId = museum.getId();
@@ -137,10 +137,10 @@ public class PaintingClient {
 
     paintingList.forEach(artist -> {
       UUID artistId = artist.getId();
-      artists.stream()
-          .filter(mj -> mj.id().equals(artistId))
-          .findFirst()
-          .ifPresent(artist::setArtist);
+//      artists.stream()
+//          .filter(mj -> mj.id().equals(artistId))
+//          .findFirst()
+//          .ifPresent(artist::setArtist);
     });
   }
 }

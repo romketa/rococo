@@ -1,5 +1,6 @@
 package guru.qa.rococo;
 
+
 import guru.qa.rococo.service.PropertiesLogger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
