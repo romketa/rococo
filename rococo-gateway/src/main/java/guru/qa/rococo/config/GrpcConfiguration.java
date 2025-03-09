@@ -18,16 +18,7 @@ import org.springframework.grpc.server.service.GrpcServiceDiscoverer;
 @ImportAutoConfiguration({
     org.springframework.grpc.server.security.GrpcSecurity.class,
     org.springframework.grpc.autoconfigure.client.GrpcClientAutoConfiguration.class,
-//    org.springframework.grpc.boot.grpc.client.autoconfigure.GrpcClientMetricAutoConfiguration.class,
-//    org.springframework.grpc.boot.grpc.client.autoconfigure.GrpcClientHealthAutoConfiguration.class,
-//    org.springframework.grpc.boot.grpc.client.autoconfigure.GrpcClientSecurityAutoConfiguration.class,
-//    org.springframework.grpc.boot.grpc.client.autoconfigure.GrpcClientTraceAutoConfiguration.class,
-//    org.springframework.grpc.boot.grpc.client.autoconfigure.GrpcDiscoveryClientAutoConfiguration.class,
-
     org.springframework.grpc.autoconfigure.common.codec.GrpcCodecConfiguration.class,
-//    org.springframework.grpc.boot.grpc.common.autoconfigure.GrpcCommonTraceAutoConfiguration.class,
-//    org.springframework.grpc.server.service.GrpcServiceConfigurer.class,
-//    org.springframework.grpc.server.service.GrpcServiceDiscoverer.class
 })
 public class GrpcConfiguration {
 }

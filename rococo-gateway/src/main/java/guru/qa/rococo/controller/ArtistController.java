@@ -31,7 +31,6 @@ public class ArtistController {
     return grpcArtistClient.getAllArtist(pageable);
   }
 
-
   @GetMapping("/{id}")
   public ArtistJson getArtistById(@PathVariable UUID id) {
     return grpcArtistClient.getArtist(id);

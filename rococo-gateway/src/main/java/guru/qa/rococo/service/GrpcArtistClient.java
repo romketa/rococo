@@ -12,10 +12,7 @@ import guru.qa.grpc.rococo.ArtistResponse;
 import guru.qa.grpc.rococo.ArtistsIdRequest;
 import guru.qa.grpc.rococo.EditArtistRequest;
 import guru.qa.grpc.rococo.RococoArtistServiceGrpc;
-import guru.qa.rococo.config.GrpcConsoleInterceptor;
 import guru.qa.rococo.model.ArtistJson;
-import io.grpc.Channel;
-import io.grpc.ManagedChannelBuilder;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import java.util.List;
@@ -44,15 +41,6 @@ public class GrpcArtistClient {
     this.artistStub = artistStub;
   }
 
-//  protected static final Channel channel = ManagedChannelBuilder
-//      .forAddress("localhost", 8091)
-//      .intercept(new GrpcConsoleInterceptor())
-//      .usePlaintext()
-//      .build();
-//
-//  protected static final RococoArtistServiceGrpc.RococoArtistServiceBlockingStub artistStub
-//      = RococoArtistServiceGrpc.newBlockingStub(channel);
-
   public @Nonnull ArtistJson getArtist(UUID id) {
     ArtistRequest request = ArtistRequest.newBuilder()
         .setId(copyFromUtf8(id.toString()))
@@ -63,7 +51,7 @@ public class GrpcArtistClient {
     } catch (StatusRuntimeException e) {
       if (e.getStatus().getCode() == Status.Code.NOT_FOUND) {
         throw new ResponseStatusException(
-            HttpStatus.NOT_FOUND, "Запрашиваемый художник с id " + id + " не найден", e);
+            HttpStatus.NOT_FOUND, "Can`t find artist by id " + id, e);
       } else {
         LOG.error("### Error while calling gRPC server ", e);
         throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
@@ -109,7 +97,7 @@ public class GrpcArtistClient {
   }
 
   @Nonnull
-  List<ArtistJson> getArtistByIds(Set<UUID> museumIds) {
+  public List<ArtistJson> getArtistByIds(Set<UUID> museumIds) {
     ArtistsIdRequest.Builder requestBuilder = ArtistsIdRequest.newBuilder();
     museumIds.forEach(
         museumId -> requestBuilder.addId(ByteString.copyFromUtf8(museumId.toString())));

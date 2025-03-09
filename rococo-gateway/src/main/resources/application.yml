@@ -2,10 +2,6 @@ server:
   port: 8080
 
 spring:
-  grpc:
-    security:
-      auth:
-        enabled: false
   application:
     name: rococo-gateway
   datasource:
@@ -65,7 +61,7 @@ spring:
         grpcArtistClient:
           address: 'static://localhost:8091'
           negotiationType: PLAINTEXT
-          max-inbound-message-size: 50MB
+          max-inbound-metadata-size: 50MB
 
 rococo-front:
   base-uri: 'http://127.0.0.1:3000'

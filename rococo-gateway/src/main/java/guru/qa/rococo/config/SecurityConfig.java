@@ -1,6 +1,5 @@
 package guru.qa.rococo.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 import guru.qa.rococo.config.cors.CorsCustomizer;

@@ -16,9 +16,17 @@ import org.springframework.grpc.server.service.GrpcServiceDiscoverer;
 public class GrpcClientConfig {
 
   @Bean
-  @Order(50)
-  <T extends ManagedChannelBuilder<T>> GrpcChannelBuilderCustomizer<T> retryChannelCustomizer() {
-    return (name, builder) -> builder.intercept(new GrpcConsoleInterceptor()).maxInboundMessageSize(9999999).maxRetryAttempts(5);
+  @Order(100)
+  GrpcChannelBuilderCustomizer<NettyChannelBuilder> flowControlCustomizer() {
+    return (name, builder) -> builder.flowControlWindow(50 * 1024 * 1024);
+  }
+
+  @Bean
+  @Order(200)
+  <T extends ManagedChannelBuilder<T>> GrpcChannelBuilderCustomizer<T> channelCustomizer() {
+    return (name, builder) -> builder
+            .intercept(new GrpcConsoleInterceptor())
+            .maxRetryAttempts(5);
   }
 
   @Bean
