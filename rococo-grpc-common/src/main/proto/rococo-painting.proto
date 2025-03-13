@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package guru.qa.grpc.rococo;
+
+option java_multiple_files = true;
+option java_package = "guru.qa.grpc.rococo";
+option java_outer_classname = "RococoPaintingProto";
+
+service RococoPaintingService {
+  rpc GetPainting(PaintingRequest) returns (PaintingResponse);
+  rpc GetAllPaintings(AllPaintingsRequest) returns (AllPaintingsResponse);
+  rpc AddPainting(AddPaintingRequest) returns (PaintingResponse);
+  rpc EditPainting(EditPaintingRequest) returns (PaintingResponse);
+  rpc GetPaintingByArtist(PaintingByArtistRequest) returns (AllPaintingsResponse);
+}
+
+message PaintingRequest {
+  bytes id = 1;
+}
+
+message PaintingResponse {
+  bytes id = 1;
+  string title = 2;
+  string description = 3;
+  bytes content = 4;
+  MuseumId museum_id = 5;
+  ArtistId artist_id = 6;
+}
+
+message MuseumId {
+  bytes id = 1;
+}
+
+message ArtistId {
+  bytes id = 1;
+}
+
+message AllPaintingsRequest {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+message AllPaintingsResponse {
+  repeated PaintingResponse paintings = 1;
+  int32 paintings_count = 2;
+}
+
+message AddPaintingRequest {
+  string title = 1;
+  string description = 2;
+  bytes content = 3;
+  MuseumId museum_id = 4;
+  ArtistId artist_id = 5;
+}
+
+message EditPaintingRequest {
+  bytes id = 1;
+  AddPaintingRequest painting_data = 2;
+}
+
+message PaintingByArtistRequest {
+  bytes artist_id = 1;
+  int32 page = 2;
+  int32 size = 3;
+}

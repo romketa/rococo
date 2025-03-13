@@ -2,12 +2,17 @@ package guru.qa.rococo.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-public record GeoJson(
+@Getter
+@Setter
+@Builder
+public class GeoJson{
+
     @JsonProperty("city")
-    String city,
+    String city;
     @JsonProperty("country")
-    CountryJson country
-) {
-
+    CountryJson country;
 }

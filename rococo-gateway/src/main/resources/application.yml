@@ -62,6 +62,18 @@ spring:
           address: 'static://localhost:8091'
           negotiationType: PLAINTEXT
           max-inbound-metadata-size: 50MB
+        grpcCountryClient:
+          address: 'static://localhost:8092'
+          negotiationType: PLAINTEXT
+          max-inbound-metadata-size: 50MB
+        grpcMuseumClient:
+          address: 'static://localhost:8093'
+          negotiationType: PLAINTEXT
+          max-inbound-metadata-size: 50MB
+        grpcPaintingClient:
+          address: 'static://localhost:8094'
+          negotiationType: PLAINTEXT
+          max-inbound-metadata-size: 50MB
 
 rococo-front:
   base-uri: 'http://127.0.0.1:3000'

@@ -1,6 +1,7 @@
 package guru.qa.rococo.controller;
 
 import guru.qa.rococo.model.PaintingJson;
+import guru.qa.rococo.service.GrpcPaintingClient;
 import guru.qa.rococo.service.PaintingClient;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +20,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/painting")
 public class PaintingController {
 
-  private final PaintingClient paintingClient;
+  private final GrpcPaintingClient paintingClient;
 
   @Autowired
-  public PaintingController(PaintingClient paintingClient) {
+  public PaintingController(GrpcPaintingClient paintingClient) {
     this.paintingClient = paintingClient;
   }
 
   @GetMapping()
-  public Page<PaintingJson> getPaintings(@PageableDefault Pageable pageable) {
+  public Page<PaintingJson> getAllPaintings(@PageableDefault Pageable pageable) {
     return paintingClient.getAllPaintings(pageable);
   }
 
-
   @GetMapping("/author/{id}")
-  public Page<PaintingJson> getPaintingByAuthor(@PageableDefault Pageable pageable,
+  public Page<PaintingJson> getPaintingByArtist(@PageableDefault Pageable pageable,
       @PathVariable UUID id) {
     return paintingClient.getPaintingByArtist(pageable, id);
   }
 
   @GetMapping("/{id}")
-  public PaintingJson getPaintingById(@PathVariable UUID id) {
-    return paintingClient.getPaintingById(id);
+  public PaintingJson getPainting(@PathVariable UUID id) {
+    return paintingClient.getPainting(id);
   }
 
   @PostMapping

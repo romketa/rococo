@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "rococo-country.proto";
+
+package guru.qa.grpc.rococo;
+
+option java_multiple_files = true;
+option java_package = "guru.qa.grpc.rococo";
+option java_outer_classname = "RococoMuseumProto";
+
+service RococoMuseumService {
+  rpc GetMuseum(MuseumRequest) returns (MuseumResponse);
+  rpc GetAllMuseums(AllMuseumsRequest) returns (AllMuseumsResponse);
+  rpc AddMuseum(AddMuseumRequest) returns (MuseumResponse);
+  rpc EditMuseum(EditMuseumRequest) returns (MuseumResponse);
+  rpc GetMuseumByIds(MuseumIdsRequest) returns (AllMuseumByIdsResponse);
+}
+
+message MuseumRequest {
+  bytes id = 1;
+}
+
+message MuseumResponse {
+  bytes id = 1;
+  string title = 2;
+  string description = 3;
+  bytes photo = 4;
+  Geo geo = 5;
+}
+
+message Geo {
+  string city = 1;
+  CountryId country = 2;
+}
+
+message AllMuseumsRequest {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+message AllMuseumsResponse {
+  repeated MuseumResponse museum = 1;
+  int32 museums_count = 2;
+}
+
+message AddMuseumRequest {
+  string title = 1;
+  string description = 2;
+  bytes photo = 3;
+  Geo geo = 4;
+}
+
+message EditMuseumRequest {
+  bytes id = 1;
+  AddMuseumRequest museum_data = 2;
+}
+
+message MuseumIdsRequest {
+  repeated bytes id = 1;
+}
+
+message AllMuseumByIdsResponse {
+  repeated MuseumResponse museum = 1;
+}

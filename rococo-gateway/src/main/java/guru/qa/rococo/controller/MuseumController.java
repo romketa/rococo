@@ -1,9 +1,9 @@
 package guru.qa.rococo.controller;
 
 import guru.qa.rococo.model.MuseumJson;
-import guru.qa.rococo.service.MuseumClient;
+import guru.qa.rococo.service.GrpcMuseumClient;
 import jakarta.annotation.Nonnull;
-import java.util.List;
+
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,21 +20,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/museum")
 public class MuseumController {
 
-  private final MuseumClient museumClient;
+  private final GrpcMuseumClient museumClient;
 
   @Autowired
-  public MuseumController(MuseumClient museumClient) {
+  public MuseumController(GrpcMuseumClient museumClient) {
     this.museumClient = museumClient;
   }
 
   @GetMapping()
-  public Page<MuseumJson> getMuseums(@Nonnull Pageable pageable) {
+  public Page<MuseumJson> getAllMuseums(@Nonnull Pageable pageable) {
     return museumClient.getAllMuseums(pageable);
   }
 
   @GetMapping("/{id}")
-  public MuseumJson getMuseumById(@PathVariable UUID id) {
-    return museumClient.getMuseumById(id);
+  public MuseumJson getMuseum(@PathVariable UUID id) {
+    return museumClient.getMuseum(id);
   }
 
   @PatchMapping()

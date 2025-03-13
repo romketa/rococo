@@ -9,11 +9,11 @@ option java_package = "guru.qa.grpc.rococo";
 option java_outer_classname = "RococoArtistProto";
 
 service RococoArtistService {
-  rpc GetArtist (ArtistRequest) returns (ArtistResponse);
+  rpc GetArtist(ArtistRequest) returns (ArtistResponse);
   rpc GetAllArtists(AllArtistRequest) returns (AllArtistsResponse);
   rpc AddArtist(AddArtistRequest) returns (ArtistResponse);
   rpc EditArtist(EditArtistRequest) returns (ArtistResponse);
-  rpc GetArtistById(ArtistsIdRequest) returns (AllArtistByIdsResponse);
+  rpc GetArtistByIds(ArtistIdsRequest) returns (AllArtistByIdsResponse);
 }
 
 message ArtistRequest {
@@ -46,10 +46,10 @@ message AddArtistRequest {
 
 message EditArtistRequest {
   bytes id = 1;
-  AddArtistRequest artistData = 2;
+  AddArtistRequest artist_data = 2;
 }
 
-message ArtistsIdRequest {
+message ArtistIdsRequest {
   repeated bytes id = 1;
 }
 

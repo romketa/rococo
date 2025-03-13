@@ -1,8 +1,6 @@
+server:
+  port: 8091
 spring:
-  grpc:
-    server:
-      port: 8091
-    max-inbound-message-size: 50MB
   application:
     name: rococo-artist
   datasource:

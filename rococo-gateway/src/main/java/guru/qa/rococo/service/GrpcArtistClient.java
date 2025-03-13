@@ -3,16 +3,9 @@ package guru.qa.rococo.service;
 import static com.google.protobuf.ByteString.copyFromUtf8;
 
 import com.google.protobuf.ByteString;
-import guru.qa.grpc.rococo.AddArtistRequest;
-import guru.qa.grpc.rococo.AllArtistByIdsResponse;
-import guru.qa.grpc.rococo.AllArtistRequest;
-import guru.qa.grpc.rococo.AllArtistsResponse;
-import guru.qa.grpc.rococo.ArtistRequest;
-import guru.qa.grpc.rococo.ArtistResponse;
-import guru.qa.grpc.rococo.ArtistsIdRequest;
-import guru.qa.grpc.rococo.EditArtistRequest;
-import guru.qa.grpc.rococo.RococoArtistServiceGrpc;
+import guru.qa.grpc.rococo.*;
 import guru.qa.rococo.model.ArtistJson;
+import guru.qa.rococo.model.MuseumJson;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import java.util.List;
@@ -97,21 +90,20 @@ public class GrpcArtistClient {
   }
 
   @Nonnull
-  public List<ArtistJson> getArtistByIds(Set<UUID> museumIds) {
-    ArtistsIdRequest.Builder requestBuilder = ArtistsIdRequest.newBuilder();
-    museumIds.forEach(
-        museumId -> requestBuilder.addId(ByteString.copyFromUtf8(museumId.toString())));
-    ArtistsIdRequest request = requestBuilder.build();
+  List<ArtistJson> getArtistByIds(Set<UUID> museumIds) {
+    ArtistIdsRequest.Builder requestBuilder = ArtistIdsRequest.newBuilder();
+    museumIds.forEach(museumId -> requestBuilder.addId(ByteString.copyFromUtf8(museumId.toString())));
+    ArtistIdsRequest request = requestBuilder.build();
     try {
-      AllArtistByIdsResponse response = artistStub.getArtistById(request);
+      AllArtistByIdsResponse response = artistStub.getArtistByIds(request);
       return response.getArtistList()
-          .stream()
-          .map(ArtistJson::fromGrpcMessage)
-          .toList();
+              .stream()
+              .map(ArtistJson::fromGrpcMessage)
+              .toList();
     } catch (StatusRuntimeException e) {
       LOG.error("### Error while calling gRPC server", e);
-      throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
-          "The gRPC operation was cancelled", e);
+      throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "The gRPC operation was cancelled", e);
     }
   }
+
 }

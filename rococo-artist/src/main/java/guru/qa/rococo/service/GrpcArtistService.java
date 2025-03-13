@@ -3,15 +3,7 @@ package guru.qa.rococo.service;
 import static io.grpc.Status.NOT_FOUND;
 import static java.util.UUID.fromString;
 
-import guru.qa.grpc.rococo.AddArtistRequest;
-import guru.qa.grpc.rococo.AllArtistByIdsResponse;
-import guru.qa.grpc.rococo.AllArtistRequest;
-import guru.qa.grpc.rococo.AllArtistsResponse;
-import guru.qa.grpc.rococo.ArtistRequest;
-import guru.qa.grpc.rococo.ArtistResponse;
-import guru.qa.grpc.rococo.ArtistsIdRequest;
-import guru.qa.grpc.rococo.EditArtistRequest;
-import guru.qa.grpc.rococo.RococoArtistServiceGrpc;
+import guru.qa.grpc.rococo.*;
 import guru.qa.rococo.data.ArtistEntity;
 import guru.qa.rococo.data.repository.ArtistRepository;
 import io.grpc.stub.StreamObserver;
@@ -98,8 +90,8 @@ public class GrpcArtistService extends RococoArtistServiceGrpc.RococoArtistServi
     }
 
     @Override
-    public void getArtistById(ArtistsIdRequest request,
-                              StreamObserver<AllArtistByIdsResponse> responseObserver) {
+    public void getArtistByIds(ArtistIdsRequest request,
+                               StreamObserver<AllArtistByIdsResponse> responseObserver) {
         Set<UUID> artistIds = request.getIdList().stream()
                 .map(bytes -> fromString(bytes.toStringUtf8()))
                 .collect(Collectors.toSet());
