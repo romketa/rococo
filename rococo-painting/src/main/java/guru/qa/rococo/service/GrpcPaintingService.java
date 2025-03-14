@@ -45,8 +45,8 @@ public class GrpcPaintingService extends RococoPaintingServiceGrpc.RococoPaintin
         int page = request.getPage();
         int size = request.getSize();
         PageRequest pageable = PageRequest.of(page, size);
-
-        Page<PaintingEntity> paintingPage = paintingRepository.findAll(pageable);
+        String title = request.getTitle();
+        Page<PaintingEntity> paintingPage = paintingRepository.findByTitleContainingIgnoreCase(title, pageable);
 
         AllPaintingsResponse.Builder responseBuilder = AllPaintingsResponse.newBuilder();
         paintingPage.forEach(museumEntity -> {

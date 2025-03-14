@@ -4,8 +4,6 @@ package guru.qa.rococo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.protobuf.ByteString;
 import guru.qa.grpc.rococo.*;
-import guru.qa.rococo.data.MuseumEntity;
-import jakarta.annotation.Nonnull;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;

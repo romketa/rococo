@@ -3,15 +3,23 @@ package guru.qa.rococo.service;
 import static com.google.protobuf.ByteString.copyFromUtf8;
 
 import com.google.protobuf.ByteString;
-import guru.qa.grpc.rococo.*;
+import guru.qa.grpc.rococo.AddArtistRequest;
+import guru.qa.grpc.rococo.AllArtistByIdsResponse;
+import guru.qa.grpc.rococo.AllArtistRequest;
+import guru.qa.grpc.rococo.AllArtistsResponse;
+import guru.qa.grpc.rococo.ArtistIdsRequest;
+import guru.qa.grpc.rococo.ArtistRequest;
+import guru.qa.grpc.rococo.ArtistResponse;
+import guru.qa.grpc.rococo.EditArtistRequest;
+import guru.qa.grpc.rococo.RococoArtistServiceGrpc;
 import guru.qa.rococo.model.ArtistJson;
-import guru.qa.rococo.model.MuseumJson;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +61,13 @@ public class GrpcArtistClient {
     }
   }
 
-  public @Nonnull Page<ArtistJson> getAllArtist(Pageable pageable) {
+  public @Nonnull Page<ArtistJson> getAllArtist(@Nullable String name, Pageable pageable) {
     AllArtistRequest.Builder builder = AllArtistRequest.newBuilder()
         .setPage(pageable.getPageNumber())
         .setSize(pageable.getPageSize());
+    if (name != null) {
+      builder.setName(name);
+    }
     AllArtistRequest request = builder.build();
 
     try {
@@ -92,17 +103,19 @@ public class GrpcArtistClient {
   @Nonnull
   List<ArtistJson> getArtistByIds(Set<UUID> museumIds) {
     ArtistIdsRequest.Builder requestBuilder = ArtistIdsRequest.newBuilder();
-    museumIds.forEach(museumId -> requestBuilder.addId(ByteString.copyFromUtf8(museumId.toString())));
+    museumIds.forEach(
+        museumId -> requestBuilder.addId(ByteString.copyFromUtf8(museumId.toString())));
     ArtistIdsRequest request = requestBuilder.build();
     try {
       AllArtistByIdsResponse response = artistStub.getArtistByIds(request);
       return response.getArtistList()
-              .stream()
-              .map(ArtistJson::fromGrpcMessage)
-              .toList();
+          .stream()
+          .map(ArtistJson::fromGrpcMessage)
+          .toList();
     } catch (StatusRuntimeException e) {
       LOG.error("### Error while calling gRPC server", e);
-      throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "The gRPC operation was cancelled", e);
+      throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
+          "The gRPC operation was cancelled", e);
     }
   }
 

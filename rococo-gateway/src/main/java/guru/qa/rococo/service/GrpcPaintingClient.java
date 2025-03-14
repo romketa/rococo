@@ -9,6 +9,7 @@ import guru.qa.rococo.model.PaintingJson;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import jakarta.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,10 +66,13 @@ public class GrpcPaintingClient {
         }
     }
 
-    public @Nonnull Page<PaintingJson> getAllPaintings(@Nonnull Pageable pageable) {
+    public @Nonnull Page<PaintingJson> getAllPaintings(@Nullable String title, @Nonnull Pageable pageable) {
         AllPaintingsRequest.Builder builder = AllPaintingsRequest.newBuilder()
                 .setPage(pageable.getPageNumber())
                 .setSize(pageable.getPageSize());
+        if (title != null) {
+            builder.setTitle(title);
+        }
         AllPaintingsRequest request = builder.build();
 
         try {

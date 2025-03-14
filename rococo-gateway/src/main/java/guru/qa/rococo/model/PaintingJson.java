@@ -3,7 +3,6 @@ package guru.qa.rococo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.protobuf.ByteString;
 import guru.qa.grpc.rococo.*;
-import guru.qa.rococo.data.PaintingEntity;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotNull;
 
@@ -41,21 +40,6 @@ public class PaintingJson {
     @NotNull(message = "Artist can not be null")
     @JsonProperty("artist")
     ArtistJson artist;
-
-    public static @Nonnull PaintingJson fromEntity(@Nonnull PaintingEntity entity) {
-        MuseumJson museum = new MuseumJson(entity.getMuseumId(), null, null, null, null);
-        ArtistJson artist = new ArtistJson(entity.getArtistId(), null, null, null);
-        return new PaintingJson(
-                entity.getId(),
-                entity.getTitle(),
-                entity.getDescription(),
-                entity.getContent() != null && entity.getContent().length > 0 ? new String(
-                        entity.getContent(),
-                        StandardCharsets.UTF_8) : null,
-                museum,
-                artist
-        );
-    }
 
     public static @Nonnull PaintingJson fromGrpcMessage(@Nonnull PaintingResponse response) {
         MuseumJson museum = new MuseumJson(fromString(response.getMuseumId().getId().toStringUtf8()), null, null, null, null);

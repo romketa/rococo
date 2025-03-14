@@ -49,8 +49,9 @@ public class GrpcArtistService extends RococoArtistServiceGrpc.RococoArtistServi
         int page = request.getPage();
         int size = request.getSize();
         PageRequest pageable = PageRequest.of(page, size);
+        String name = request.getName();
 
-        Page<ArtistEntity> artistPage = artistRepository.findAll(pageable);
+        Page<ArtistEntity> artistPage = artistRepository.findByNameContainingIgnoreCase(name, pageable);
 
         AllArtistsResponse.Builder responseBuilder = AllArtistsResponse.newBuilder();
         artistPage.forEach(artistEntity -> {

@@ -2,7 +2,6 @@ package guru.qa.rococo.controller;
 
 import guru.qa.rococo.model.PaintingJson;
 import guru.qa.rococo.service.GrpcPaintingClient;
-import guru.qa.rococo.service.PaintingClient;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,8 +28,8 @@ public class PaintingController {
   }
 
   @GetMapping()
-  public Page<PaintingJson> getAllPaintings(@PageableDefault Pageable pageable) {
-    return paintingClient.getAllPaintings(pageable);
+  public Page<PaintingJson> getAllPaintings(@RequestParam(required = false) String title, @PageableDefault Pageable pageable) {
+    return paintingClient.getAllPaintings(title, pageable);
   }
 
   @GetMapping("/author/{id}")
