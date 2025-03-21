@@ -1,0 +1,57 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <persistence-unit name="rococo-artist" transaction-type="JTA">
+        <jta-data-source>java:comp/env/jdbc/rococo-artist</jta-data-source>
+        <class>guru.qa.rococo.data.entity.ArtistEntity</class>
+
+        <properties>
+            <property name="hibernate.transaction.jta.platform"
+                      value="com.atomikos.icatch.jta.hibernate4.AtomikosPlatform"/>
+            <property name="hibernate.connection.handling_mode"
+                      value="DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="rococo-museum" transaction-type="JTA">
+        <jta-data-source>java:comp/env/jdbc/rococo-museum</jta-data-source>
+        <class>guru.qa.rococo.data.entity.MuseumEntity</class>
+
+        <properties>
+            <property name="hibernate.transaction.jta.platform"
+                      value="com.atomikos.icatch.jta.hibernate4.AtomikosPlatform"/>
+            <property name="hibernate.connection.handling_mode"
+                      value="DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="rococo-painting" transaction-type="JTA">
+        <jta-data-source>java:comp/env/jdbc/rococo-painting</jta-data-source>
+        <class>guru.qa.rococo.data.entity.PaintingEntity</class>
+
+        <properties>
+            <property name="hibernate.transaction.jta.platform"
+                      value="com.atomikos.icatch.jta.hibernate4.AtomikosPlatform"/>
+            <property name="hibernate.connection.handling_mode"
+                      value="DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="rococo-country" transaction-type="JTA">
+        <jta-data-source>java:comp/env/jdbc/rococo-country</jta-data-source>
+        <class>guru.qa.rococo.data.entity.CountryEntity</class>
+
+        <properties>
+            <property name="hibernate.transaction.jta.platform"
+              value="com.atomikos.icatch.jta.hibernate4.AtomikosPlatform"/>
+            <property name="hibernate.connection.handling_mode"
+              value="DELAYED_ACQUISITION_AND_RELEASE_AFTER_STATEMENT"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+        </properties>
+    </persistence-unit>
+</persistence>

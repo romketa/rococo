@@ -15,7 +15,7 @@ public interface MuseumRepository extends JpaRepository<MuseumEntity, UUID> {
   Optional<MuseumEntity> findByIdAndTitle(@Nonnull UUID id, @Nonnull String title);
 
   @Nonnull
-  Page<MuseumEntity> findAll(@Nonnull Pageable pageable);
+  Page<MuseumEntity> findByTitleContainingIgnoreCase(@Nonnull String title, @Nonnull Pageable pageable);
 
   @Nonnull
   Optional<MuseumEntity> findByTitle(@Nonnull String title);

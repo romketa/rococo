@@ -38,8 +38,9 @@ message ArtistId {
 }
 
 message AllPaintingsRequest {
-  int32 page = 1;
-  int32 size = 2;
+  string title = 1;
+  int32 page = 2;
+  int32 size = 3;
 }
 
 message AllPaintingsResponse {

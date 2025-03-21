@@ -29,8 +29,4 @@ public record UserJson(
             StandardCharsets.UTF_8) : null
     );
   }
-
-  public @Nonnull UserJson addUsername(@Nonnull String username) {
-    return new UserJson(id, username, firstname, lastname, avatar);
-  }
 }

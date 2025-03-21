@@ -1,6 +1,7 @@
-server:
-  port: 8092
 spring:
+  grpc:
+    server:
+      port: 8092
   application:
     name: rococo-country
   datasource:
@@ -33,7 +34,8 @@ spring:
 logging:
   level:
     root: INFO
-    org.springframework.web: DEBUG
+    org.springframework.grpc: INFO
+    io.grpc: INFO
 ---
 spring:
   config:

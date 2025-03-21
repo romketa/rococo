@@ -1,0 +1,93 @@
+package guru.qa.rococo.jupiter.extension;
+
+import static io.qameta.allure.Allure.step;
+
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.Allure;
+import io.qameta.allure.selenide.AllureSelenide;
+import java.io.ByteArrayInputStream;
+import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.LifecycleMethodExecutionExceptionHandler;
+import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+
+
+public class BrowserExtension implements
+    BeforeEachCallback,
+    AfterEachCallback,
+    TestExecutionExceptionHandler,
+    LifecycleMethodExecutionExceptionHandler {
+
+  static {
+    String browser = System.getProperty("browser", "chrome");
+    Configuration.timeout = 8000;
+    Configuration.pageLoadStrategy = "eager";
+    Configuration.browser = browser;
+    if ("docker".equals(System.getProperty("test.env"))) {
+      Configuration.remote = "http://selenoid:4444/wd/hub";
+      if ("chrome".equals(browser)) {
+        Configuration.browserVersion = "127.0";
+        Configuration.browserCapabilities = new ChromeOptions().addArguments("--no-sandbox");
+      } else if ("firefox".equals(browser)) {
+        Configuration.browserVersion = "125.0";
+        Configuration.browserCapabilities = new FirefoxOptions().addArguments("--no-sandbox");
+      }
+    }
+  }
+
+  @Override
+  public void afterEach(ExtensionContext context) throws Exception {
+    if (WebDriverRunner.hasWebDriverStarted()) {
+      step("Close web driver",
+          Selenide::closeWebDriver);
+    }
+  }
+
+  @Override
+  public void beforeEach(ExtensionContext context) throws Exception {
+    SelenideLogger.addListener("Allure-selenide", new AllureSelenide()
+        .savePageSource(false)
+        .screenshots(false)
+    );
+  }
+
+  @Override
+  public void handleTestExecutionException(ExtensionContext context, Throwable throwable)
+      throws Throwable {
+    doScreenshot();
+    throw throwable;
+  }
+
+  @Override
+  public void handleBeforeEachMethodExecutionException(ExtensionContext context,
+      Throwable throwable) throws Throwable {
+    doScreenshot();
+    throw throwable;
+  }
+
+  @Override
+  public void handleAfterEachMethodExecutionException(ExtensionContext context, Throwable throwable)
+      throws Throwable {
+    doScreenshot();
+    throw throwable;
+  }
+
+  private void doScreenshot() {
+    if (WebDriverRunner.hasWebDriverStarted()) {
+      Allure.addAttachment(
+          "Screen on fail for browser: " + WebDriverRunner.driver().getSessionId(),
+          new ByteArrayInputStream(
+              ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES)
+          )
+      );
+    }
+  }
+}
