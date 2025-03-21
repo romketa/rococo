@@ -2,6 +2,7 @@ package guru.qa.rococo.po.component.modal;
 
 import static com.codeborne.selenide.Condition.attributeMatching;
 import static com.codeborne.selenide.Condition.disappear;
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
@@ -60,7 +61,7 @@ public class Profile extends BaseComponent<Profile> {
   @Nonnull
   public <Page> Page signOut(Page expectedPage) {
     LOGGER.info("Sign out");
-    signOutBtn.click();
+    signOutBtn.shouldBe(visible, enabled).click();
     return expectedPage;
   }
 

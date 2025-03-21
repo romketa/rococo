@@ -22,7 +22,7 @@ public class AllureAppender extends StdoutLogger {
   public void logSQL(int connectionId, String now, long elapsed, Category category, String prepared, String sql, String url) {
     if (isNoneEmpty(sql)) {
       final SqlAttachmentData attachmentData = new SqlAttachmentData(
-          sql.split("\\s+")[0].toUpperCase() + " query to: " + substringBetween(url, "5432/", "?"),
+          sql.split("\\s+")[0].toUpperCase() + " query to: " + substringBetween(url, "3306/", "?"),
           SqlFormatter.of(Dialect.PostgreSql).format(sql)
       );
       attachmentProcessor.addAttachment(

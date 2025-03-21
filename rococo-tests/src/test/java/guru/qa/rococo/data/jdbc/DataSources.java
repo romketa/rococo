@@ -32,7 +32,7 @@ public class DataSources {
           props.put("password", "secret");
           dsBean.setXaProperties(props);
           dsBean.setPoolSize(3);
-          dsBean.setMaxPoolSize(20);
+          dsBean.setMaxPoolSize(50);
           P6DataSource p6DataSource = new P6DataSource(
               dsBean
           );
