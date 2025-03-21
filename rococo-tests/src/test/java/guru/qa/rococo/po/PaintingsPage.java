@@ -75,6 +75,14 @@ public class PaintingsPage extends BasePage<PaintingsPage>{
   }
 
   @Nonnull
+  @Step("Check message after no found paintings")
+  public PaintingsPage checkMessageNoPaintingsFound() {
+    infoMessage.first().shouldBe(text("Картины не найдены"));
+    infoMessage.get(1).shouldBe(text("Для указанного вами фильтра мы не смогли не найти ни одной картины"));
+    return this;
+  }
+
+  @Nonnull
   private SelenideElement getPaintingFromTheList(String PaintingTitle) {
     return listOfPageItems.filter(text(PaintingTitle)).first();
   }

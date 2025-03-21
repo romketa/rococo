@@ -30,18 +30,18 @@ public class MuseumExtension implements BeforeEachCallback, ParameterResolver {
   @Override
   public void beforeEach(ExtensionContext context) {
     AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Museum.class)
-        .ifPresent(userAnno -> {
-          final String city = "".equals(userAnno.city())
+        .ifPresent(museumAnno -> {
+          final String city = "".equals(museumAnno.city())
               ? randomCity()
-              : userAnno.city();
-          final CountryJson country = "".equals(userAnno.city())
+              : museumAnno.city();
+          final CountryJson country = "".equals(museumAnno.city())
               ? getRandomCountry()
-              : countryDbClient.findCountryByName(userAnno.country());
+              : countryDbClient.findCountryByName(museumAnno.country());
           GeoJson geo = new GeoJson(city, country);
           MuseumJson museum = new MuseumJson(
               null,
-              "".equals(userAnno.title()) ? randomMuseumTitle() : userAnno.title(),
-              "".equals(userAnno.description()) ? randomDescription() : userAnno.description(),
+              "".equals(museumAnno.title()) ? randomMuseumTitle() : museumAnno.title(),
+              "".equals(museumAnno.description()) ? randomDescription() : museumAnno.description(),
               ImageUtils.convertImgToBase64(MUSEUM_PATH),
               geo
           );

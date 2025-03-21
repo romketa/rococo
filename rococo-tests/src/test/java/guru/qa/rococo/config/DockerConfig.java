@@ -51,7 +51,7 @@ enum DockerConfig implements Config {
   @NotNull
   @Override
   public String grpcAddress() {
-    return "rococo.dc";
+    return "grpc.rococo.dc";
   }
 
   @Nonnull

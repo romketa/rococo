@@ -1,5 +1,6 @@
 package guru.qa.rococo.po;
 
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -26,11 +27,10 @@ public class DetailedPaintingPage extends BasePage<DetailedPaintingPage> {
   private static final Logger LOGGER = LoggerFactory.getLogger(DetailedPaintingPage.class);
   private final SelenideElement page = $("#page-content");
   private final SelenideElement paintingTitle = page.$(".card-header");
-  private final SelenideElement paintingPainting = page.$$(".text-center").get(1);
-  private final SelenideElement paintingDescription = page.$$(".m4").get(1);
+  private final SelenideElement artistPainting = page.$$(".text-center").get(1);
+  private final SelenideElement paintingDescription = page.$$(".m-4").get(1);
   private final SelenideElement editPaintingBtn = page.$("button[data-testid='edit-painting']");
   private final SelenideElement paintingContent = page.$("img");
-  private final ElementsCollection artistPaintings = page.$$("li");
 
   @Step("Check that Painting detailed page loaded")
   @Nonnull
@@ -45,7 +45,7 @@ public class DetailedPaintingPage extends BasePage<DetailedPaintingPage> {
   @Nonnull
   public Painting editPainting() {
     LOGGER.info("Edit painting");
-    editPaintingBtn.click();
+    editPaintingBtn.shouldBe(enabled).click();
     return new Painting();
   }
 
@@ -75,7 +75,7 @@ public class DetailedPaintingPage extends BasePage<DetailedPaintingPage> {
   @Nonnull
   public DetailedPaintingPage checkPaintingArtist(String artistName) {
     LOGGER.info("Check painting artist {}", artistName);
-    paintingTitle.shouldHave(exactText(artistName));
+    artistPainting.shouldHave(exactText(artistName));
     return this;
   }
 
@@ -87,19 +87,16 @@ public class DetailedPaintingPage extends BasePage<DetailedPaintingPage> {
     return this;
   }
 
-  @Step("Check that painting {0} added for the artist")
+  @Step("Check that painting updated")
   @Nonnull
-  public Painting checkThatPaintingAddedForArtist(String paintingName, BufferedImage image)
+  public DetailedPaintingPage checkThatPaintingUpdated(String title, String artist,
+      String description, BufferedImage image)
       throws InterruptedException, IOException {
-    LOGGER.info("Check that painting added for the artist");
-    SelenideElement addedPainting = artistPaintings.filter(text(paintingName)).first();
-    addedPainting.scrollIntoView(true).shouldBe(visible);
-    Thread.sleep(3000);
-    BufferedImage actual = ImageIO.read(Objects.requireNonNull(addedPainting.$("img").screenshot()));
-    assertFalse(new ScreenDiffResult(
-        actual,
-        image
-    ));
-    return new Painting();
+    LOGGER.info("Check that painting updated");
+    checkPaintingTitle(title);
+    checkPaintingDescription(description);
+    checkPaintingArtist(artist);
+    checkPaintingPhoto(image);
+    return this;
   }
 }

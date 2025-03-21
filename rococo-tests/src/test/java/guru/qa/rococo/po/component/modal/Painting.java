@@ -1,5 +1,6 @@
 package guru.qa.rococo.po.component.modal;
 
+import static com.codeborne.selenide.Condition.interactable;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -23,7 +24,9 @@ public class Painting extends BaseComponent<Painting> {
   private final SelenideElement titleInput = self.$("input[name='title']");
   private final SelenideElement descriptionInput = self.$("textarea[name='description']");
   private final ElementsCollection museumSelector = self.$$("select[name='museumId'] option");
+  private final ElementsCollection authorSelector = self.$$("select[name='authorId'] option");
   private final SelenideElement updatePaintingBtn = self.$(".variant-filled-primary");
+  private final ElementsCollection errorMessageEl = self.$$(".text-error-400");
 
   public Painting() {
     super($(".modal"));
@@ -58,8 +61,60 @@ public class Painting extends BaseComponent<Painting> {
   @Nonnull
   public Painting selectMuseum(String museumTitle) {
     LOGGER.info("Select museum {}", museumTitle);
-    museumSelector.find(text(museumTitle)).scrollIntoView(true).click();
-    return this;
+    // Максимальное количество попыток прокрутки
+    int maxAttempts = 50;
+    int attempts = 0;
+
+    // Пока элемент не найден и не превышено количество попыток
+    while (attempts < maxAttempts) {
+      // Проверяем, есть ли элемент с нужным текстом
+      if (museumSelector.find(text(museumTitle)).exists()) {
+        // Если элемент найден и доступен для взаимодействия, кликаем по нему
+        if (museumSelector.find(text(museumTitle)).is(interactable)) {
+          museumSelector.find(text(museumTitle)).scrollIntoView(true).click();
+          return this;
+        }
+      }
+
+      // Прокручиваем список вниз
+      museumSelector.last().scrollIntoView(true);
+      attempts++;
+    }
+
+    // Если элемент не найден после всех попыток, выбрасываем исключение
+    throw new RuntimeException(
+        "Museum with title '" + museumTitle + "' not found or not interactable after " + maxAttempts
+            + " attempts");
+  }
+
+  @Step("Select author {}")
+  @Nonnull
+  public Painting selectAuthor(String author) {
+    LOGGER.info("Select author {}", author);
+    // Максимальное количество попыток прокрутки
+    int maxAttempts = 50;
+    int attempts = 0;
+
+    // Пока элемент не найден и не превышено количество попыток
+    while (attempts < maxAttempts) {
+      // Проверяем, есть ли элемент с нужным текстом
+      if (authorSelector.find(text(author)).exists()) {
+        // Если элемент найден и доступен для взаимодействия, кликаем по нему
+        if (authorSelector.find(text(author)).is(interactable)) {
+          authorSelector.find(text(author)).scrollIntoView(true).click();
+          return this;
+        }
+      }
+
+      // Прокручиваем список вниз
+      authorSelector.last().scrollIntoView(true);
+      attempts++;
+    }
+
+    // Если элемент не найден после всех попыток, выбрасываем исключение
+    throw new RuntimeException(
+        "Author with title '" + author + "' not found or not interactable after " + maxAttempts
+            + " attempts");
   }
 
   @Step("Click by button Add painting")
@@ -83,10 +138,17 @@ public class Painting extends BaseComponent<Painting> {
     return this;
   }
 
-  @Step("Verify error message {0}")
-  public Painting verifyErrorMessage(String errorMessage) {
-    LOGGER.info("Verify error message {}", errorMessage);
-    updatePaintingBtn.shouldBe(text(errorMessage));
+  @Step("Verify error message for title {0}")
+  public Painting verifyErrorMessageForTitle(String errorMessage) {
+    LOGGER.info("Verify error message for title {}", errorMessage);
+    errorMessageEl.first().shouldBe(text(errorMessage));
+    return this;
+  }
+
+  @Step("Verify error message for description {0}")
+  public Painting verifyErrorMessageForDescription(String errorMessage) {
+    LOGGER.info("Verify error message for title {}", errorMessage);
+    errorMessageEl.get(3).shouldBe(visible, text(errorMessage));
     return this;
   }
 }

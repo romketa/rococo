@@ -33,7 +33,7 @@ public class GrpcPaintingService extends RococoPaintingServiceGrpc.RococoPaintin
                             responseObserver.onCompleted();
                         },
                         () -> responseObserver.onError(
-                                NOT_FOUND.withDescription("Painting not found by id " + paintingId)
+                                NOT_FOUND.withDescription("Painting not found by id: " + paintingId)
                                         .asRuntimeException()
                         )
                 );

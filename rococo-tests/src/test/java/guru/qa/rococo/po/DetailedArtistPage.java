@@ -1,6 +1,7 @@
 package guru.qa.rococo.po;
 
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -31,6 +32,7 @@ public class DetailedArtistPage extends BasePage<DetailedArtistPage> {
   private final ElementsCollection addPaintingButtons = page.$$(".variant-filled-primary");
   private final SelenideElement editArtistBtn = page.$("button[data-testid='edit-artist']");
   private final SelenideElement artistPhoto = page.$(".avatar-image");
+  private final ElementsCollection artistPaintings = page.$$("li");
 
   @Step("Check that detailed Artist page loaded")
   @Nonnull
@@ -83,6 +85,7 @@ public class DetailedArtistPage extends BasePage<DetailedArtistPage> {
   @Nonnull
   public Painting addPainting() {
     LOGGER.info("Add painting");
+    editArtistBtn.shouldBe(visible);
     addPaintingButtons.first().click();
     return new Painting();
   }
@@ -92,6 +95,22 @@ public class DetailedArtistPage extends BasePage<DetailedArtistPage> {
   public Painting addFirstPainting() {
     LOGGER.info("Add first painting");
     addPaintingButtons.get(1).click();
+    return new Painting();
+  }
+
+  @Step("Check that painting {0} added for the artist")
+  @Nonnull
+  public Painting checkThatPaintingAddedForArtist(String paintingName, BufferedImage image)
+      throws InterruptedException, IOException {
+    LOGGER.info("Check that painting added for the artist");
+    SelenideElement addedPainting = artistPaintings.filter(text(paintingName)).first();
+    addedPainting.scrollIntoView(true).shouldBe(visible);
+    Thread.sleep(3000);
+    BufferedImage actual = ImageIO.read(Objects.requireNonNull(addedPainting.$("img").screenshot()));
+    assertFalse(new ScreenDiffResult(
+        actual,
+        image
+    ));
     return new Painting();
   }
 }

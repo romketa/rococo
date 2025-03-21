@@ -22,6 +22,7 @@ public abstract class BasePage<T extends BasePage<?>> {
   protected final ElementsCollection listOfPageItems = page.$$("li");
   protected final SelenideElement searchInput = page.$(".input");
   protected final SelenideElement searchBtn = page.$(".btn-icon");
+  protected final ElementsCollection infoMessage = page.$$("#page-content p");
 
   protected BasePage(SelenideDriver driver) {
     this.alert = driver.$("div[data-testid='toast']");

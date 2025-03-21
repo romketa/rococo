@@ -79,6 +79,14 @@ public class MuseumsPage extends BasePage<MuseumsPage> {
   }
 
   @Nonnull
+  @Step("Check message after no found museums")
+  public MuseumsPage checkMessageNoMuseumsFound() {
+    infoMessage.first().shouldBe(text("Музеи не найдены"));
+    infoMessage.get(1).shouldBe(text("Для указанного вами фильтра мы не смогли не найти ни одного музея"));
+    return this;
+  }
+
+  @Nonnull
   private SelenideElement getMuseumFromTheList(String MuseumTitle) {
     return listOfPageItems.filter(text(MuseumTitle)).first();
   }

@@ -1,14 +1,9 @@
 package guru.qa.rococo.jupiter.extension;
 
+import static io.qameta.allure.Allure.step;
+
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolutionException;
-import org.junit.jupiter.api.extension.ParameterResolver;
-import org.junit.platform.commons.support.AnnotationSupport;
-import org.openqa.selenium.Cookie;
 import guru.qa.rococo.api.core.ThreadSafeCookieStore;
 import guru.qa.rococo.config.Config;
 import guru.qa.rococo.jupiter.annotation.ApiLogin;
@@ -16,6 +11,13 @@ import guru.qa.rococo.jupiter.annotation.Token;
 import guru.qa.rococo.model.UserJson;
 import guru.qa.rococo.po.MainPage;
 import guru.qa.rococo.service.api.AuthApiClient;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
+import org.junit.platform.commons.support.AnnotationSupport;
+import org.openqa.selenium.Cookie;
 
 
 public class ApiLoginExtension implements BeforeEachCallback, ParameterResolver {
@@ -70,15 +72,17 @@ public class ApiLoginExtension implements BeforeEachCallback, ParameterResolver 
           );
           setToken(token);
           if (setupBrowser) {
-            Selenide.open(CFG.frontUrl());
-            Selenide.localStorage().setItem("id_token", getToken());
+            step("Open browser to set cookies for API login", () -> Selenide.open(CFG.frontUrl()));
+            step("Set item id_token to local storage",
+                () -> Selenide.localStorage().setItem("id_token", getToken()));
             WebDriverRunner.getWebDriver().manage().addCookie(
                 new Cookie(
                     "JSESSIONID",
                     ThreadSafeCookieStore.INSTANCE.cookieValue("JSESSIONID")
                 )
             );
-            Selenide.open(MainPage.URL, MainPage.class).checkThatPageLoaded();
+            step("Open main page to check that page is opened",
+                () -> Selenide.open(MainPage.URL, MainPage.class).checkThatPageLoaded());
           }
         });
   }

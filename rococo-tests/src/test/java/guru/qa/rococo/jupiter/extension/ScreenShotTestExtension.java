@@ -48,10 +48,19 @@ public class ScreenShotTestExtension implements ParameterResolver, TestExecution
   @Override
   public void handleTestExecutionException(ExtensionContext context, Throwable throwable)
       throws Throwable {
+    BufferedImage expected = getExpected();
+    BufferedImage actual = getActual();
+    BufferedImage diff = getDiff();
+
+    // Проверяем, что изображения не null
+    if (expected == null || actual == null || diff == null) {
+      throw throwable; // Продолжаем выбрасывать исключение, если изображения отсутствуют
+    }
+
     ScreenDif screenDif = new ScreenDif(
-        "data:image/png;base64," + encoder.encodeToString(imageToBytes(getExpected())),
-        "data:image/png;base64," + encoder.encodeToString(imageToBytes(getActual())),
-        "data:image/png;base64," + encoder.encodeToString(imageToBytes(getDiff()))
+        "data:image/png;base64," + encoder.encodeToString(imageToBytes(expected)),
+        "data:image/png;base64," + encoder.encodeToString(imageToBytes(actual)),
+        "data:image/png;base64," + encoder.encodeToString(imageToBytes(diff))
     );
 
     Allure.addAttachment(
@@ -64,7 +73,7 @@ public class ScreenShotTestExtension implements ParameterResolver, TestExecution
       String expectedPath = "src/test/resources/" + context.getRequiredTestMethod()
           .getAnnotation(ScreenShotTest.class).value();
       try {
-        Files.write(Path.of(expectedPath), imageToBytes(getActual()));
+        Files.write(Path.of(expectedPath), imageToBytes(actual));
         System.out.println("Expected file rewrote");
       } catch (IOException e) {
         e.printStackTrace();

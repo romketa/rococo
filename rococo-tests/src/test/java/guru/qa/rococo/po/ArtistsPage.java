@@ -81,4 +81,12 @@ public class ArtistsPage extends BasePage<ArtistsPage> {
   private SelenideElement getArtistFromTheList(String artistName) {
     return listOfPageItems.filter(text(artistName)).first();
   }
+
+  @Nonnull
+  @Step("Check message after no found artists")
+  public ArtistsPage checkMessageNoArtistsFound() {
+    infoMessage.first().shouldBe(text("Художники не найдены"));
+    infoMessage.get(1).shouldBe(text("Для указанного вами фильтра мы не смогли найти художников"));
+    return this;
+  }
 }

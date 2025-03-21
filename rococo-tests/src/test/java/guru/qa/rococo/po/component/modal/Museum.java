@@ -1,5 +1,10 @@
 package guru.qa.rococo.po.component.modal;
 
+import static com.codeborne.selenide.Condition.interactable;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.rococo.po.DetailedMuseumPage;
@@ -10,10 +15,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
 
 @ParametersAreNonnullByDefault
 public class Museum extends BaseComponent<Museum> {
@@ -43,7 +44,8 @@ public class Museum extends BaseComponent<Museum> {
   @Step("Fill Museum text form with title {0}, description {1} and city {2}")
   @Nonnull
   public Museum fillTextMuseumForm(String title, String description, String city) {
-    LOGGER.info("Fill Museum text form with name {}, biography {} and city {}", title, description, city);
+    LOGGER.info("Fill Museum text form with name {}, biography {} and city {}", title, description,
+        city);
     titleInput.setValue(title);
     descriptionInput.setValue(description);
     cityInput.setValue(city);
@@ -60,15 +62,37 @@ public class Museum extends BaseComponent<Museum> {
 
   @Step("Select country {}")
   @Nonnull
-  public Museum selectCountry(String name) {
-    LOGGER.info("Select country {}", name);
-    countriesSelector.find(text(name)).scrollIntoView(true).click();
-    return this;
+  public Museum selectCountry(String country) {
+    LOGGER.info("Select country {}", country);
+    // Максимальное количество попыток прокрутки
+    int maxAttempts = 50;
+    int attempts = 0;
+
+    // Пока элемент не найден и не превышено количество попыток
+    while (attempts < maxAttempts) {
+      // Проверяем, есть ли элемент с нужным текстом
+      if (countriesSelector.find(text(country)).exists()) {
+        // Если элемент найден и доступен для взаимодействия, кликаем по нему
+        if (countriesSelector.find(text(country)).is(interactable)) {
+          countriesSelector.find(text(country)).scrollIntoView(true).click();
+          return this;
+        }
+      }
+
+      // Прокручиваем список вниз
+      countriesSelector.last().scrollIntoView(true);
+      attempts++;
+    }
+
+    // Если элемент не найден после всех попыток, выбрасываем исключение
+    throw new RuntimeException(
+        "Country '" + country + "' not found or not interactable after " + maxAttempts
+            + " attempts");
   }
 
-  @Step("Click by button Add Museum")
+  @Step("Click by button Add museum")
   public MuseumsPage addMuseum() {
-    LOGGER.info("Click by button Add artist");
+    LOGGER.info("Click by button Add museum");
     updateMuseumBtn.click();
     return new MuseumsPage();
   }

@@ -43,7 +43,7 @@ public class GrpcMuseumService extends RococoMuseumServiceGrpc.RococoMuseumServi
               responseObserver.onCompleted();
             },
             () -> responseObserver.onError(
-                NOT_FOUND.withDescription("Museum not found by id " + museumId)
+                NOT_FOUND.withDescription("Museum not found by id: " + museumId)
                     .asRuntimeException()
             )
         );

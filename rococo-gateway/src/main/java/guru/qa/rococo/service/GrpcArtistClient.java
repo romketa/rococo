@@ -84,8 +84,7 @@ public class GrpcArtistClient {
     }
   }
 
-  public @Nonnull ArtistJson addArtist(ArtistJson artist) {
-    AddArtistRequest request = ArtistJson.toGrpcMessage(artist);
+  public @Nonnull ArtistJson addArtist(ArtistJson artist) {AddArtistRequest request = ArtistJson.toGrpcMessage(artist);
     ArtistResponse response = artistStub.addArtist(request);
     return ArtistJson.fromGrpcMessage(response);
   }

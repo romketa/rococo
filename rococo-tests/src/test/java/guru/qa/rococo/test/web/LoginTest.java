@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 @Epic(AllureEpic.WEB)
 @Feature(AllureFeature.LOGIN)
 @Tag(JTag.WEB)
+@DisplayName("WEB. Login web tests")
 public class LoginTest extends BaseTest {
 
 

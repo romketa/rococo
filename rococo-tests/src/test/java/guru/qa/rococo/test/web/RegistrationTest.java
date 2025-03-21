@@ -25,6 +25,7 @@ import guru.qa.rococo.model.UserJson;
 @Epic(AllureEpic.WEB)
 @Feature(AllureFeature.REGISTRATION)
 @Tag(JTag.WEB)
+@DisplayName("WEB. Registration web tests")
 public class RegistrationTest extends BaseTest {
 
   @Test

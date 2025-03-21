@@ -8,4 +8,5 @@ include 'rococo-country'
 include 'rococo-museum'
 include 'rococo-painting'
 include 'rococo-tests'
+include 'rococo-kafka-log'
 

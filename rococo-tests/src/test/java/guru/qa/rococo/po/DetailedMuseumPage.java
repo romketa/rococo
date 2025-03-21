@@ -1,7 +1,12 @@
 package guru.qa.rococo.po;
 
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import com.codeborne.selenide.SelenideElement;
-import guru.qa.rococo.model.GeoJson;
 import guru.qa.rococo.po.component.modal.Museum;
 import io.qameta.allure.Step;
 import java.awt.image.BufferedImage;
@@ -12,12 +17,6 @@ import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.ScreenDiffResult;
-
-import static com.codeborne.selenide.Condition.exactText;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class DetailedMuseumPage extends BasePage<DetailedMuseumPage> {
 
@@ -78,16 +77,16 @@ public class DetailedMuseumPage extends BasePage<DetailedMuseumPage> {
 
   @Step("Check that museum updated")
   @Nonnull
-  public DetailedMuseumPage checkThatMuseumUpdated(String name, GeoJson geo,
+  public DetailedMuseumPage checkThatMuseumUpdated(String title, String city, String country,
       String description, BufferedImage image)
       throws InterruptedException, IOException {
-    LOGGER.info("Check that painting added for the Museum");
-    museumTitle.shouldBe(text(name));
-    museumGeo.shouldBe(text(geo.country().name() + ", " + geo.city()));
+    LOGGER.info("Check that museum updated");
+    museumTitle.shouldBe(text(title));
+    museumGeo.shouldBe(text(country + ", " + city));
     museumDescription.shouldBe(text(description));
     Thread.sleep(3000);
     BufferedImage actual = ImageIO.read(
-        Objects.requireNonNull($("img").scrollIntoView(true).screenshot()));
+        Objects.requireNonNull(museumPhoto.scrollIntoView(true).screenshot()));
     assertFalse(new ScreenDiffResult(
         actual,
         image

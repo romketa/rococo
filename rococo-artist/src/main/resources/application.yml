@@ -1,6 +1,7 @@
-server:
-  port: 8091
 spring:
+  grpc:
+    server:
+      port: 8091
   application:
     name: rococo-artist
   datasource:
@@ -33,13 +34,23 @@ spring:
 logging:
   level:
     root: INFO
-    org.springframework.web: DEBUG
-    org.springframework.security: DEBUG
-    org.springframework.security.oauth2: DEBUG
+    org.springframework.grpc: INFO
+    io.grpc: INFO
 ---
 spring:
   config:
     activate:
       on-profile: 'local'
+  kafka:
+    bootstrap-servers: 'localhost:9092'
   datasource:
     url: 'jdbc:mysql://localhost:3306/rococo-artist?serverTimezone=UTC&createDatabaseIfNotExist=true'
+---
+spring:
+  config:
+    activate:
+      on-profile: 'docker'
+  kafka:
+    bootstrap-servers: 'docker:9092'
+  datasource:
+    url: 'jdbc:mysql://docker-all-db:3306/rococo-artist?serverTimezone=UTC&createDatabaseIfNotExist=true'

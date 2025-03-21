@@ -5,6 +5,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.rococo.po.ArtistsPage;
 import guru.qa.rococo.po.DetailedArtistPage;
@@ -23,7 +24,7 @@ public class Artist extends BaseComponent<Artist> {
   private final SelenideElement nameInput = self.$("input[name='name']");
   private final SelenideElement biographyInput = self.$("textarea[name='biography']");
   private final SelenideElement updateArtistBtn = self.$(".variant-filled-primary");
-  private final SelenideElement errorMessageEl = self.$(".text-error-400");
+  private final ElementsCollection errorMessageEl = self.$$(".text-error-400");
 
   public Artist() {
     super($(".modal"));
@@ -75,10 +76,17 @@ public class Artist extends BaseComponent<Artist> {
     return new DetailedArtistPage();
   }
 
-  @Step("Verify error message {0}")
-  public Artist verifyErrorMessage(String errorMessage) {
+  @Step("Verify error message for Artist name {0}")
+  public Artist verifyErrorMessageForArtistName(String errorMessage) {
     LOGGER.info("Verify error message {}", errorMessage);
-    errorMessageEl.shouldBe(text(errorMessage));
+    errorMessageEl.first().shouldBe(text(errorMessage));
+    return this;
+  }
+
+  @Step("Verify error message Artist biography {0}")
+  public Artist verifyErrorMessageForArtistBiography(String errorMessage) {
+    LOGGER.info("Verify error message {}", errorMessage);
+    errorMessageEl.get(2).shouldBe(text(errorMessage));
     return this;
   }
 }
