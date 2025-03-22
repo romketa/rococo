@@ -33,6 +33,7 @@ public class UserDbClient {
   );
 
   @Nonnull
+  @Step("Create user with username {username} via DB")
   public UserJson createUser(String username, String password) {
     UserJson user = Objects.requireNonNull(xaTransactionTemplate.execute(
         () -> UserJson.fromEntity(createNewUser(username, password))));

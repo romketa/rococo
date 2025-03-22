@@ -20,13 +20,13 @@ public class AllureBackendLogsExtension implements SuiteExtension {
     allureLifecycle.scheduleTestCase(new TestResult().setUuid(caseId).setName(caseName));
     allureLifecycle.startTestCase(caseId);
 
-    addAttachment("Rococo-auth log", "./logs/rococo-auth/app.log");
-    addAttachment("Rococo-auth log", "./logs/rococo-auth/app.log");
-    addAttachment("Rococo-gateway log", "./logs/rococo-gateway/app.log");
-    addAttachment("Rococo-artist log", "./logs/rococo-artist/app.log");
-    addAttachment("Rococo-country log", "./logs/rococo-country/app.log");
-    addAttachment("Rococo-museum log", "./logs/rococo-museum/app.log");
-    addAttachment("Rococo-painting log", "./logs/rococo-painting/app.log");
+    addAttachment("Rococo-auth log", "./logs/rococo-auth/spring.log");
+    addAttachment("Rococo-gateway log", "./logs/rococo-gateway/spring.log");
+    addAttachment("Rococo-artist log", "./logs/rococo-artist/spring.log");
+    addAttachment("Rococo-country log", "./logs/rococo-country/spring.log");
+    addAttachment("Rococo-museum log", "./logs/rococo-museum/spring.log");
+    addAttachment("Rococo-painting log", "./logs/rococo-painting/spring.log");
+    addAttachment("Rococo-userdata log", "./logs/rococo-userdata/spring.log");
 
     allureLifecycle.stopTestCase(caseId);
     allureLifecycle.writeTestCase(caseId);

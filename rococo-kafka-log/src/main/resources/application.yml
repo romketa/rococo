@@ -28,14 +28,14 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: false
     generate-ddl: true
     open-in-view: false
 
 logging:
   file:
-    path: ./logs/rococo-userdata
+    path: ./logs/rococo-kafka-log
   level:
     root: INFO
     org.springframework.kafka: INFO

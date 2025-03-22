@@ -28,3 +28,6 @@ logs
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+## Tests ###
+rococo-tests/tm**

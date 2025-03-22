@@ -58,6 +58,10 @@ public interface Config {
   @Nonnull
   String grpcAddress();
 
+  default int userdataGrpcPort() {
+    return 8089;
+  }
+
   default int artistGrpcPort() {
     return 8091;
   }
