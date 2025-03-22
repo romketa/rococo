@@ -1,5 +1,6 @@
 package guru.qa.rococo.jupiter.extension;
 
+import guru.qa.rococo.service.db.UserDbClient;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.support.AnnotationSupport;
 import guru.qa.rococo.jupiter.annotation.User;
 import guru.qa.rococo.model.UserJson;
-import guru.qa.rococo.service.api.UserApiClient;
 import utils.RandomDataUtils;
 
 public class UserExtension implements BeforeEachCallback, ParameterResolver {
@@ -16,8 +16,7 @@ public class UserExtension implements BeforeEachCallback, ParameterResolver {
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(
       UserExtension.class);
   private static final String defaultPassword = "123";
-
-  private final UserApiClient userClient = new UserApiClient();
+  private final UserDbClient userClient = new UserDbClient();
 
   @Override
   public void beforeEach(ExtensionContext context) throws Exception {

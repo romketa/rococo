@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 @Epic(AllureEpic.WEB)
 @Feature(AllureFeature.PROFILE)
 @Tag(JTag.WEB)
-@DisplayName("WEB. Profile web tests")
+@DisplayName("WEB: Profile web tests")
 public class ProfileTest extends BaseTest {
 
   @User

@@ -41,10 +41,12 @@ spring:
           address: 'static://localhost:8094'
           negotiationType: PLAINTEXT
           max-inbound-metadata-size: 50MB
+        grpcUserdataClient:
+          address: 'static://localhost:8089'
+          negotiationType: PLAINTEXT
+          max-inbound-metadata-size: 50MB
 
 rococo-front:
   base-uri: 'http://127.0.0.1:3000'
 rococo-auth:
   base-uri: 'http://127.0.0.1:9000'
-rococo-userdata:
-  base-uri: 'http://127.0.0.1:8089'
