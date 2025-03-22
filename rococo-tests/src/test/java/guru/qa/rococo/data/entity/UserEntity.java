@@ -48,6 +48,16 @@ public class UserEntity implements Serializable {
     return ue;
   }
 
+  public static UserEntity fromJson(String username) {
+    UserEntity ue = new UserEntity();
+    ue.setId(null);
+    ue.setUsername(username);
+    ue.setFirstname(null);
+    ue.setLastname(null);
+    ue.setAvatar(null);
+    return ue;
+  }
+
   @Override
   public final boolean equals(Object object) {
     if (this == object) {

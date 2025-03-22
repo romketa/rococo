@@ -4,6 +4,7 @@ import guru.qa.grpc.rococo.RococoArtistServiceGrpc;
 import guru.qa.grpc.rococo.RococoCountryServiceGrpc;
 import guru.qa.grpc.rococo.RococoMuseumServiceGrpc;
 import guru.qa.grpc.rococo.RococoPaintingServiceGrpc;
+import guru.qa.grpc.rococo.RococoUserdataServiceGrpc;
 import io.grpc.ManagedChannel;
 import java.util.List;
 
@@ -70,5 +71,12 @@ public class GrpcConfiguration {
             GrpcChannelFactory channelFactory) {
         ManagedChannel channel = channelFactory.createChannel("grpcPaintingClient");
         return RococoPaintingServiceGrpc.newBlockingStub(channel);
+    }
+
+    @Bean
+    RococoUserdataServiceGrpc.RococoUserdataServiceBlockingStub userdataStub(
+        GrpcChannelFactory channelFactory) {
+        ManagedChannel channel = channelFactory.createChannel("grpcUserdataClient");
+        return RococoUserdataServiceGrpc.newBlockingStub(channel);
     }
 }

@@ -7,10 +7,27 @@ plugins {
 group = 'guru.qa.rococo'
 version = '1.0.0'
 
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.grpc:spring-grpc-dependencies:0.6.0-SNAPSHOT'
+    }
+}
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation('org.springframework.boot:spring-boot-starter-web-services') {
-        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    implementation project(':rococo-grpc-common')
+
+    implementation "org.springframework.grpc:spring-grpc-spring-boot-starter"
+    implementation 'io.grpc:grpc-netty-shaded'
+    modules {
+        module("io.grpc:grpc-netty") {
+            replacedBy("io.grpc:grpc-netty-shaded", "Use Netty shaded instead of regular Netty")
+        }
     }
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.data:spring-data-commons'

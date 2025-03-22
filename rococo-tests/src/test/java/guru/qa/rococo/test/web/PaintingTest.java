@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 @Epic(AllureEpic.WEB)
 @Feature(AllureFeature.PAINTING)
 @Tag(JTag.WEB)
-@DisplayName("WEB. Rococo-paintings web tests")
+@DisplayName("WEB: Rococo-paintings web tests")
 public class PaintingTest extends BaseTest {
 
   @Test
