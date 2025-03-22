@@ -1,6 +1,7 @@
 package guru.qa.rococo.data.logging;
 
 import static org.apache.commons.lang3.StringUtils.isNoneEmpty;
+import static org.apache.commons.lang3.StringUtils.substringAfter;
 import static org.apache.commons.lang3.StringUtils.substringBetween;
 
 import com.github.vertical_blank.sqlformatter.SqlFormatter;
@@ -22,7 +23,7 @@ public class AllureAppender extends StdoutLogger {
   public void logSQL(int connectionId, String now, long elapsed, Category category, String prepared, String sql, String url) {
     if (isNoneEmpty(sql)) {
       final SqlAttachmentData attachmentData = new SqlAttachmentData(
-          sql.split("\\s+")[0].toUpperCase() + " query to: " + url,
+          sql.split("\\s+")[0].toUpperCase() + " query to: " + substringAfter(url, "3306/"),
           SqlFormatter.of(Dialect.MySql).format(sql)
       );
       attachmentProcessor.addAttachment(
