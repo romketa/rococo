@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.protobuf.ByteString;
 import guru.qa.grpc.rococo.AddArtistRequest;
 import guru.qa.grpc.rococo.ArtistResponse;
-import jakarta.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 

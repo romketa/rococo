@@ -6,11 +6,15 @@ spring:
     name: rococo-gateway
 
 logging:
+  file:
+    path: ./logs/rococo-gateway
   level:
     root: INFO
-    org.springframework.web: DEBUG
-    org.springframework.security: DEBUG
-    org.springframework.security.oauth2: DEBUG
+    org.springframework.grpc: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
+    org.springframework.boot.autoconfigure: INFO
 ---
 spring:
   config:

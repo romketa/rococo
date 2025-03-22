@@ -9,4 +9,5 @@ public class AllureFeature {
   public static final String MUSEUM = "Museum";
   public static final String PAINTING = "Painting";
   public static final String COUNTRY = "Country";
+  public static final String USERDATA = "Userdata";
 }
