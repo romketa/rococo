@@ -13,7 +13,6 @@ import static utils.Utils.toByteStringFromUuid;
 import com.google.protobuf.ByteString;
 import guru.qa.grpc.rococo.AddMuseumRequest;
 import guru.qa.grpc.rococo.AllMuseumByIdsResponse;
-import guru.qa.grpc.rococo.ArtistRequest;
 import guru.qa.grpc.rococo.CountryId;
 import guru.qa.grpc.rococo.EditMuseumRequest;
 import guru.qa.grpc.rococo.Geo;
@@ -52,7 +51,7 @@ import utils.ImageUtils;
 public class MuseumTest extends BaseTest {
 
   private static final Channel museumChannel = ManagedChannelBuilder
-      .forAddress(CFG.grpcAddress(), CFG.museumGrpcPort())
+      .forAddress(CFG.museumGrpcAddress(), CFG.museumGrpcPort())
       .intercept(new GrpcConsoleInterceptor())
       .usePlaintext()
       .build();

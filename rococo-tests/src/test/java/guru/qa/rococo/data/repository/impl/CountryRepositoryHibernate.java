@@ -6,6 +6,7 @@ import guru.qa.rococo.config.Config;
 import guru.qa.rococo.data.entity.CountryEntity;
 import guru.qa.rococo.data.repository.CountryRepository;
 import jakarta.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -34,8 +35,8 @@ public class CountryRepositoryHibernate implements CountryRepository {
 
   @Nonnull
   @Override
-  public Stream<CountryEntity> getAllCountries() {
+  public List<CountryEntity> getAllCountries() {
     return entityManager.createQuery("select c from CountryEntity c", CountryEntity.class)
-        .getResultStream();
+        .getResultList();
   }
 }

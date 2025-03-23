@@ -40,6 +40,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("WEB: Rococo-artists web tests")
 public class ArtistTest extends BaseTest {
 
+
   @Test
   @DisplayName("User can move to artists page from main page from main body")
   void userCanNavigateFromMainToArtistByBodyImage() {
@@ -82,7 +83,7 @@ public class ArtistTest extends BaseTest {
   @Test
   @User
   @ApiLogin
-  @ScreenShotTest("img/artists/expected-repin.png")
+  @ScreenShotTest(value = "img/artists/expected-repin.png")
   @DisplayName("Authorized user can add artist")
   void authorizedUserCanAddArtist(BufferedImage image) throws IOException, InterruptedException {
     String name = randomArtistName();

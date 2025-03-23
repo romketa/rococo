@@ -20,6 +20,11 @@ spring:
   config:
     activate:
       on-profile: 'local'
+  autoconfigure:
+    exclude:
+      - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
+      - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
+      - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
   security:
     oauth2:
       resourceserver:
@@ -52,5 +57,45 @@ spring:
 
 rococo-front:
   base-uri: 'http://127.0.0.1:3000'
-rococo-auth:
-  base-uri: 'http://127.0.0.1:9000'
+---
+spring:
+  config:
+    activate:
+      on-profile: 'docker'
+  autoconfigure:
+    exclude:
+      - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
+      - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
+      - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: 'http://auth.rococo.dc:9000'
+
+  grpc:
+    client:
+      channels:
+        grpcArtistClient:
+          address: 'static://artist.rococo.dc:8091'
+          negotiationType: PLAINTEXT
+          max-inbound-metadata-size: 50MB
+        grpcCountryClient:
+          address: 'static://country.rococo.dc:8092'
+          negotiationType: PLAINTEXT
+          max-inbound-metadata-size: 50MB
+        grpcMuseumClient:
+          address: 'static://museum.rococo.dc:8093'
+          negotiationType: PLAINTEXT
+          max-inbound-metadata-size: 50MB
+        grpcPaintingClient:
+          address: 'static://painting.rococo.dc:8094'
+          negotiationType: PLAINTEXT
+          max-inbound-metadata-size: 50MB
+        grpcUserdataClient:
+          address: 'static://userdata.rococo.dc:8089'
+          negotiationType: PLAINTEXT
+          max-inbound-metadata-size: 50MB
+
+rococo-front:
+  base-uri: 'http://frontend.rococo.dc'

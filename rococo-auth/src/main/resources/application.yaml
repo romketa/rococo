@@ -11,7 +11,6 @@ spring:
   mvc:
     log-request-details: true
   datasource:
-    url: 'jdbc:mysql://127.0.0.1:3306/rococo-auth?serverTimezone=UTC&createDatabaseIfNotExist=true'
     hikari:
       connection-timeout: 20000
       minimum-idle: 10
@@ -64,6 +63,8 @@ spring:
       - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
   kafka:
     bootstrap-servers: 'localhost:9092'
+  datasource:
+    url: 'jdbc:mysql://127.0.0.1:3306/rococo-auth?serverTimezone=UTC&createDatabaseIfNotExist=true'
 rococo-front:
   base-uri: 'http://127.0.0.1:3000'
 rococo-auth:
@@ -83,7 +84,7 @@ spring:
   kafka:
     bootstrap-servers: 'kafka:9092'
   datasource:
-    url: 'jdbc:mysql://127.0.0.1:3306/rococo-auth?serverTimezone=UTC&createDatabaseIfNotExist=true'
+    url: 'jdbc:mysql://rococo-all-db:3306/rococo-auth?serverTimezone=UTC&createDatabaseIfNotExist=true'
     username: root
     password: secret
 rococo-front:

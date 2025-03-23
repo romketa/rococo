@@ -6,16 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.RandomDataUtils.getRandomCountry;
-import static utils.RandomDataUtils.randomArtistName;
-import static utils.RandomDataUtils.randomDescription;
 
 import com.google.protobuf.ByteString;
-import guru.qa.grpc.rococo.AddArtistRequest;
 import guru.qa.grpc.rococo.AllCountriesRequest;
 import guru.qa.grpc.rococo.AllCountriesResponse;
 import guru.qa.grpc.rococo.AllCountryByIdsResponse;
-import guru.qa.grpc.rococo.ArtistIdsRequest;
-import guru.qa.grpc.rococo.ArtistResponse;
 import guru.qa.grpc.rococo.CountryId;
 import guru.qa.grpc.rococo.CountryIdsRequest;
 import guru.qa.grpc.rococo.CountryName;
@@ -43,7 +38,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import utils.GrpcConsoleInterceptor;
-import utils.ImageUtils;
 
 @Owner("Roman Nagovitcyn")
 @Severity(SeverityLevel.NORMAL)
@@ -54,7 +48,7 @@ import utils.ImageUtils;
 public class CountryTest extends BaseTest{
 
   private static final Channel countryChannel = ManagedChannelBuilder
-      .forAddress(CFG.grpcAddress(), CFG.countryGrpcPort())
+      .forAddress(CFG.countryGrpcAddress(), CFG.countryGrpcPort())
       .intercept(new GrpcConsoleInterceptor())
       .usePlaintext()
       .build();
