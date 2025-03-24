@@ -205,7 +205,7 @@ services:
       - HEAD_COMMIT_MESSAGE=${HEAD_COMMIT_MESSAGE}
       - EXECUTION_TYPE=${EXECUTION_TYPE}
     volumes:
-      - allure-results:/rococo/rococo-tests/build/allure-results
+      - ./rococo-tests/src/test/resources/img/selenoid:/rococo/rococo-tests/src/test/resources/img/selenoid
     depends_on:
       frontend.rococo.dc:
         condition: service_started
@@ -219,10 +219,8 @@ services:
     depends_on:
       - rococo-tests
     environment:
-      - CHECK_RESULTS_EVERY_SECONDS=5
+      - CHECK_RESULTS_EVERY_SECONDS=NONE
       - KEEP_HISTORY=1
-    volumes:
-      - allure-results:/app/allure-results
     ports:
       - 5050:5050
     networks:
@@ -246,6 +244,4 @@ networks:
     driver: bridge
 
 volumes:
-  allure-results:
-    external: true
   mysql_data:

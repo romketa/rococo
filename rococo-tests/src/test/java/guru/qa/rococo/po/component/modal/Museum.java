@@ -60,7 +60,7 @@ public class Museum extends BaseComponent<Museum> {
     return this;
   }
 
-  @Step("Select country {}")
+  @Step("Select country {0}")
   @Nonnull
   public Museum selectCountry(String country) {
     LOGGER.info("Select country {}", country);

@@ -3,7 +3,7 @@ package guru.qa.rococo.config;
 import static org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG;
 import static org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG;
 
-import guru.qa.rococo.model.ArtistEvent;
+import guru.qa.rococo.model.LogJson;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -41,12 +41,12 @@ public class RococoArtistProducerConfiguration {
   }
 
   @Bean
-  public ProducerFactory<String, ArtistEvent> producerFactory() {
+  public ProducerFactory<String, LogJson> producerFactory() {
     return new DefaultKafkaProducerFactory<>(producerConfiguration());
   }
 
   @Bean
-  public KafkaTemplate<String, ArtistEvent> kafkaTemplate() {
+  public KafkaTemplate<String, LogJson> kafkaTemplate() {
     return new KafkaTemplate<>(producerFactory());
   }
 

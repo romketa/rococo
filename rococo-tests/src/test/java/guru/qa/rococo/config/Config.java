@@ -1,5 +1,7 @@
 package guru.qa.rococo.config;
 
+import guru.qa.rococo.label.Env;
+import guru.qa.rococo.model.BrowserData;
 import javax.annotation.Nonnull;
 
 public interface Config {
@@ -8,6 +10,32 @@ public interface Config {
     return "docker".equals(System.getProperty("test.env"))
         ? DockerConfig.INSTANCE
         : LocalConfig.INSTANCE;
+  }
+
+  @Nonnull
+  Env env();
+
+  @Nonnull
+  default BrowserData browser() {
+    return BrowserData.valueOf(System.getProperty("browser"));
+  }
+
+  @Nonnull
+  default String remoteUrl() {
+    return "http://selenoid:4444/wd/hub";
+  }
+
+  default String chromeVersion() {
+    return "127.0";
+  }
+
+  default String firefoxVersion() {
+    return "125.0";
+  }
+
+  @Nonnull
+  default String projectId() {
+    return "rococo";
   }
 
   @Nonnull
@@ -94,4 +122,6 @@ public interface Config {
   default String ghUrl() {
     return "https://api.github.com/";
   }
+
+  String allureDockerServiceUrl();
 }

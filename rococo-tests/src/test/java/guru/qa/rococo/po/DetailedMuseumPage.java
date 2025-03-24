@@ -1,12 +1,15 @@
 package guru.qa.rococo.po;
 
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import com.codeborne.selenide.SelenideElement;
+import guru.qa.rococo.po.component.modal.Artist;
 import guru.qa.rococo.po.component.modal.Museum;
 import io.qameta.allure.Step;
 import java.awt.image.BufferedImage;
@@ -43,6 +46,14 @@ public class DetailedMuseumPage extends BasePage<DetailedMuseumPage> {
     LOGGER.info("Edit Museum");
     editMuseumBtn.click();
     return new Museum();
+  }
+
+  @Step("Verify that edit museum is not allowed")
+  @Nonnull
+  public DetailedMuseumPage verifyThatEditMuseumIsNotAllowed() {
+    LOGGER.info("Verify that edit museum is not allowed");
+    editMuseumBtn.shouldBe(not(exist));
+    return this;
   }
 
   @Step("Check Museum photo")

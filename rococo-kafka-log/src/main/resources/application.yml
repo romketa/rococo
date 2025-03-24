@@ -3,9 +3,8 @@ server:
 
 spring:
   application:
-    name: rococo-userdata
+    name: rococo-kafka-log
   datasource:
-    url: 'jdbc:mysql://localhost:3306/rococo-kafka-log?serverTimezone=UTC&createDatabaseIfNotExist=true'
     username: root
     password: secret
     hikari:
@@ -48,32 +47,28 @@ spring:
   config:
     activate:
       on-profile: 'local'
-  autoconfigure:
-    exclude:
-      - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
-      - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
-      - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
   kafka:
     bootstrap-servers: 'localhost:9092'
     consumer:
       group-id: 'rococo-consumer'
       auto-offset-reset: earliest
-rococo-userdata:
-  base-uri: 'http://127.0.0.1:8089'
+  datasource:
+    url: 'jdbc:mysql://localhost:3306/rococo-kafka-log?serverTimezone=UTC&createDatabaseIfNotExist=true'
+  jpa:
+    hibernate:
+      ddl-auto: validate
 ---
 spring:
   config:
     activate:
       on-profile: 'docker'
-  autoconfigure:
-    exclude:
-      - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
-      - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
-      - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
   kafka:
     bootstrap-servers: 'kafka:9092'
     consumer:
-      group-id: 'userdata'
+      group-id: 'rococo-consumer'
       auto-offset-reset: earliest
-rococo-userdata:
-  base-uri: 'http://kafka.log.dc:8089'
+  datasource:
+    url: 'jdbc:mysql://rococo-all-db:3306/rococo-kafka-log?serverTimezone=UTC&createDatabaseIfNotExist=true'
+  jpa:
+    hibernate:
+      ddl-auto: validate

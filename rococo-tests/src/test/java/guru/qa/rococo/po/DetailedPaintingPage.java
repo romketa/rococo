@@ -2,6 +2,8 @@ package guru.qa.rococo.po;
 
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -47,6 +49,14 @@ public class DetailedPaintingPage extends BasePage<DetailedPaintingPage> {
     LOGGER.info("Edit painting");
     editPaintingBtn.shouldBe(enabled).click();
     return new Painting();
+  }
+
+  @Step("Verify that edit painting is not allowed")
+  @Nonnull
+  public DetailedPaintingPage verifyThatEditPaintingIsNotAllowed() {
+    LOGGER.info("Verify that edit painting is not allowed");
+    editPaintingBtn.shouldBe(not(exist));
+    return this;
   }
 
   @Step("Check Painting photo")

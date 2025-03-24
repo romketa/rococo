@@ -68,6 +68,20 @@ public class PaintingTest extends BaseTest {
   }
 
   @Test
+  @Museum
+  @Artist
+  @Painting
+  @DisplayName("Not authorized user cannot edit painting")
+  void notAuthorizedUserCannotEditPainting(PaintingJson painting) {
+    paintingsPage
+        .open()
+        .checkThatPageLoaded()
+        .filterPaintingsByTitle(painting.title())
+        .openDetailedPaintingInfo(painting.title())
+        .verifyThatEditPaintingIsNotAllowed();
+  }
+
+  @Test
   @DisplayName("Message 'No Paintings found' should be displayed while paintings searching")
   void messageNoPaintingsFoundShouldBeDisplayedWhileSearchingPaintings() {
 
@@ -83,7 +97,7 @@ public class PaintingTest extends BaseTest {
   @ApiLogin
   @Artist
   @Museum
-  @ScreenShotTest("img/paintings/expected-burlaks-in-painting-detailed.png")
+  @ScreenShotTest(value = "expected-burlaks-in-painting-detailed.png")
   @DisplayName("Authorized user can add painting")
   void authorizedUserCanAddPainting(ArtistJson artist, MuseumJson museum, BufferedImage image) throws IOException, InterruptedException {
     String title = randomPaintingTitle();
@@ -114,7 +128,7 @@ public class PaintingTest extends BaseTest {
   @Artist
   @Museum
   @Painting
-  @ScreenShotTest("img/paintings/expected-burlaks-in-painting-detailed.png")
+  @ScreenShotTest(value = "expected-burlaks-in-painting-detailed.png")
   @DisplayName("User can edit painting")
   void userCanEditPainting(PaintingJson painting, ArtistJson artist, MuseumJson museum, BufferedImage image) throws IOException, InterruptedException {
     String title = randomPaintingTitle();

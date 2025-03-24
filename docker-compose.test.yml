@@ -41,12 +41,12 @@ services:
       dockerfile: ./rococo-tests/Dockerfile
     environment:
       - ALLURE_DOCKER_API=${ALLURE_DOCKER_API}
-      - GITHUB_TOKEN=${GITHUB_TOKEN}
       - BUILD_URL=${BUILD_URL}
       - HEAD_COMMIT_MESSAGE=${HEAD_COMMIT_MESSAGE}
       - EXECUTION_TYPE=${EXECUTION_TYPE}
+      - BROWSER=${BROWSER}
     volumes:
-      - allure-results:/rococo/rococo-tests/build/allure-results
+      - ./rococo-tests/src/test/resources/img/selenoid:/rococo/rococo-tests/src/test/resources/img/selenoid
     networks:
       - rococo-network
 
@@ -82,7 +82,3 @@ services:
 networks:
   rococo-network:
     driver: bridge
-
-volumes:
-  allure-results:
-    external: true

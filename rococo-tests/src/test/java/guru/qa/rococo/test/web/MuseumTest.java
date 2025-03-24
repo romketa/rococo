@@ -65,6 +65,18 @@ public class MuseumTest extends BaseTest {
   }
 
   @Test
+  @Museum
+  @DisplayName("Not authorized user cannot edit museum")
+  void notAuthorizedUserCannotEditMuseum(MuseumJson museum) {
+    museumsPage
+        .open()
+        .checkThatPageLoaded()
+        .filterMuseumsByTitle(museum.title())
+        .openDetailedMuseumInfo(museum.title())
+        .verifyThatEditMuseumIsNotAllowed();
+  }
+
+  @Test
   @DisplayName("Message 'No Museums found' should be displayed while museums searching")
   void messageNoMuseumsFoundShouldBeDisplayedWhileSearchingMuseums() {
 
@@ -78,7 +90,7 @@ public class MuseumTest extends BaseTest {
   @Test
   @User
   @ApiLogin
-  @ScreenShotTest("img/museums/expected-luvr.png")
+  @ScreenShotTest(value = "expected-luvr.png")
   @DisplayName("Authorized user can add museum")
   void authorizedUserCanAddMuseum(BufferedImage image) throws IOException, InterruptedException {
     String title = randomMuseumTitle();
@@ -179,7 +191,7 @@ public class MuseumTest extends BaseTest {
   @User
   @ApiLogin
   @Museum
-  @ScreenShotTest("img/museums/expected-luvr.png")
+  @ScreenShotTest(value = "expected-luvr.png")
   @DisplayName("User can modify museum")
   void userCanModifyMuseum(MuseumJson museum, BufferedImage image)
       throws IOException, InterruptedException {
