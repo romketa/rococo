@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.RandomDataUtils.randomLastName;
 import static utils.RandomDataUtils.randomName;
-import static utils.RandomDataUtils.randomUsername;
 
 import com.google.protobuf.ByteString;
 import guru.qa.grpc.rococo.RococoUserdataServiceGrpc;
@@ -45,7 +44,7 @@ import utils.ImageUtils;
 public class UserdataTest extends BaseTest {
 
   private static final Channel userdataChannel = ManagedChannelBuilder
-      .forAddress(CFG.grpcAddress(), CFG.userdataGrpcPort())
+      .forAddress(CFG.userdataGrpcAddress(), CFG.userdataGrpcPort())
       .intercept(new GrpcConsoleInterceptor())
       .usePlaintext()
       .build();

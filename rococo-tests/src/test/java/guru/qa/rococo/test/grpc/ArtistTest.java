@@ -35,9 +35,7 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -54,7 +52,7 @@ import utils.ImageUtils;
 public class ArtistTest extends BaseTest {
 
   private static final Channel artistChannel = ManagedChannelBuilder
-      .forAddress(CFG.grpcAddress(), CFG.artistGrpcPort())
+      .forAddress(CFG.artistGrpcAddress(), CFG.artistGrpcPort())
       .intercept(new GrpcConsoleInterceptor())
       .usePlaintext()
       .build();

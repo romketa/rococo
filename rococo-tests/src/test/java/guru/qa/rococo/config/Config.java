@@ -56,7 +56,19 @@ public interface Config {
   String userdataJdbcUrl();
 
   @Nonnull
-  String grpcAddress();
+  String userdataGrpcAddress();
+
+  @Nonnull
+  String artistGrpcAddress();
+
+  @Nonnull
+  String countryGrpcAddress();
+
+  @Nonnull
+  String museumGrpcAddress();
+
+  @Nonnull
+  String paintingGrpcAddress();
 
   default int userdataGrpcPort() {
     return 8089;

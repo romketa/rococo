@@ -1,8 +1,10 @@
 package utils;
 
 import com.github.javafaker.Faker;
+import guru.qa.rococo.data.repository.CountryRepository;
 import guru.qa.rococo.data.repository.impl.CountryRepositoryHibernate;
 import guru.qa.rococo.model.CountryJson;
+import guru.qa.rococo.service.db.CountryDbClient;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.Nonnull;
@@ -96,11 +98,10 @@ public class RandomDataUtils {
     return fakeData.address().cityName();
   }
 
-  public static synchronized CountryJson getRandomCountry() {
-    CountryRepositoryHibernate countryRepository = new CountryRepositoryHibernate();
+  public static CountryJson getRandomCountry() {
+    CountryDbClient countryDbClient = new CountryDbClient();
 
-    List<CountryJson> countryName = countryRepository.getAllCountries().map(CountryJson::fromEntity)
-        .toList();
+    List<CountryJson> countryName = countryDbClient.getAllCountries();
     Random random = new Random();
     int randomIndex = random.nextInt(countryName.size());
     return countryName.get(randomIndex);

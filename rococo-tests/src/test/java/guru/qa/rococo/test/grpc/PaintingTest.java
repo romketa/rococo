@@ -15,7 +15,6 @@ import guru.qa.grpc.rococo.AllPaintingsResponse;
 import guru.qa.grpc.rococo.ArtistId;
 import guru.qa.grpc.rococo.EditPaintingRequest;
 import guru.qa.grpc.rococo.MuseumId;
-import guru.qa.grpc.rococo.MuseumRequest;
 import guru.qa.grpc.rococo.PaintingByArtistRequest;
 import guru.qa.grpc.rococo.PaintingRequest;
 import guru.qa.grpc.rococo.PaintingResponse;
@@ -45,7 +44,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import utils.GrpcConsoleInterceptor;
 import utils.ImageUtils;
-import utils.Utils;
 
 @Owner("Roman Nagovitcyn")
 @Severity(SeverityLevel.NORMAL)
@@ -56,7 +54,7 @@ import utils.Utils;
 public class PaintingTest extends BaseTest {
 
   private static final Channel paintingChannel = ManagedChannelBuilder
-      .forAddress(CFG.grpcAddress(), CFG.paintingGrpcPort())
+      .forAddress(CFG.paintingGrpcAddress(), CFG.paintingGrpcPort())
       .intercept(new GrpcConsoleInterceptor())
       .usePlaintext()
       .build();

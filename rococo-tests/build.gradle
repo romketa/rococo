@@ -5,7 +5,7 @@ buildscript {
         allureVersion = '2.29.0'
         selenideVersion = '7.4.2'
         retrofitVersion = '2.11.0'
-        okhttp3Version = '3.14.9'
+        okhttp3Version = '4.11.0'
         logbackVersion = '1.4.11'
         slf4jVersion = '2.0.9'
         springJdbcVersion = '6.1.12'

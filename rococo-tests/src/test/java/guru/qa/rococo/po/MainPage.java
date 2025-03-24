@@ -41,7 +41,7 @@ public class MainPage extends BasePage<MainPage> {
   @Step("Check that main page loaded")
   public MainPage checkThatPageLoaded() {
     LOGGER.info("Check that main page loaded");
-    mainBlock.shouldBe(text(TEXT_ON_MAIN_PAGE));
+    mainBlock.find("p").shouldBe(text(TEXT_ON_MAIN_PAGE));
     return this;
   }
 

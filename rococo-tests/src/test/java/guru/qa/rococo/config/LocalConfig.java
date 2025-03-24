@@ -105,7 +105,31 @@ enum LocalConfig implements Config {
 
   @NotNull
   @Override
-  public String grpcAddress() {
+  public String userdataGrpcAddress() {
+    return "127.0.0.1";
+  }
+
+  @NotNull
+  @Override
+  public String artistGrpcAddress() {
+    return "127.0.0.1";
+  }
+
+  @NotNull
+  @Override
+  public String countryGrpcAddress() {
+    return "127.0.0.1";
+  }
+
+  @NotNull
+  @Override
+  public String museumGrpcAddress() {
+    return "127.0.0.1";
+  }
+
+  @NotNull
+  @Override
+  public String paintingGrpcAddress() {
     return "127.0.0.1";
   }
 }
