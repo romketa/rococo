@@ -1,5 +1,20 @@
 # Rococo
 
+Локальный запуск команды
+
+
+на linux/mac
+```java
+gradlew :rococo-tests:clean test
+gradlew :rococo-tests:allureServe
+```
+
+на винде
+```java
+gradlew.bat :rococo-tests:clean test
+gradlew.bat :rococo-tests:allureServe
+```
+ 
 должен быть установлена БД - docker run --name rococo -p 3306:3306 -e MYSQL_ROOT_USER: root -e MYSQL_ROOT_PASSWORD=secret -d mysql:8.0
 
   Приветствую тебя, мой дорогой студент!
