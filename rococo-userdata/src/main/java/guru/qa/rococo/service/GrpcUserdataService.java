@@ -9,15 +9,19 @@ import guru.qa.grpc.rococo.UserRequest;
 import guru.qa.grpc.rococo.UserResponse;
 import guru.qa.rococo.data.UserEntity;
 import guru.qa.rococo.data.repository.UserRepository;
+import guru.qa.rococo.model.EventType;
+import guru.qa.rococo.model.LogJson;
 import guru.qa.rococo.model.UserJson;
 import io.grpc.stub.StreamObserver;
 import jakarta.annotation.Nonnull;
+import java.time.LocalDateTime;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,10 +31,12 @@ public class GrpcUserdataService extends RococoUserdataServiceGrpc.RococoUserdat
   private static final Logger LOG = LoggerFactory.getLogger(GrpcUserdataService.class);
 
   private final UserRepository userRepository;
+  private final KafkaTemplate<String, LogJson> kafkaTemplate;
 
   @Autowired
-  public GrpcUserdataService(UserRepository userRepository) {
+  public GrpcUserdataService(UserRepository userRepository, KafkaTemplate<String, LogJson> kafkaTemplate) {
     this.userRepository = userRepository;
+    this.kafkaTemplate = kafkaTemplate;
   }
 
   @Transactional
@@ -88,5 +94,16 @@ public class GrpcUserdataService extends RococoUserdataServiceGrpc.RococoUserdat
     UserResponse userResponse = UserEntity.toGrpcMessage(userEntity);
     responseObserver.onNext(userResponse);
     responseObserver.onCompleted();
+
+    LogJson log = new LogJson(
+        "User",
+        userEntity.getId(),
+        "User " + userEntity.getUsername() + " was successfully updated",
+        EventType.EDIT_ENTITY,
+        LocalDateTime.now()
+    );
+    kafkaTemplate.send("userdata", log);
+    LOG.info("### Kafka topic [userdata] sent message: {} {}", userEntity.getUsername(),
+        EventType.EDIT_ENTITY);
   }
 }

@@ -24,7 +24,7 @@ public class EventConsumerService {
   }
 
   @Transactional
-  @KafkaListener(topics = {"artists"}, groupId = "rococo-consumer")
+  @KafkaListener(topics = {"artists", "museums", "paintings", "userdata"}, groupId = "rococo-consumer")
   public void listener(@Payload LogJson log, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
     LOGGER.info("### Event received: {} {}", log.eventType(), topic);
     //TODO добавить возможность создавать записи в базе данных logs при чтении из кафки

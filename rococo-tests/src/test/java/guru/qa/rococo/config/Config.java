@@ -1,5 +1,7 @@
 package guru.qa.rococo.config;
 
+import static guru.qa.rococo.model.BrowserData.CHROME;
+
 import guru.qa.rococo.label.Env;
 import guru.qa.rococo.model.BrowserData;
 import javax.annotation.Nonnull;
@@ -17,7 +19,7 @@ public interface Config {
 
   @Nonnull
   default BrowserData browser() {
-    return BrowserData.valueOf(System.getProperty("browser"));
+    return BrowserData.valueOf(System.getProperty("browser", "CHROME"));
   }
 
   @Nonnull
