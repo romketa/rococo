@@ -1,6 +1,8 @@
 package guru.qa.rococo.po;
 
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -49,6 +51,14 @@ public class DetailedArtistPage extends BasePage<DetailedArtistPage> {
     LOGGER.info("Edit Artist");
     editArtistBtn.click();
     return new Artist();
+  }
+
+  @Step("Verify that edit artist is not allowed")
+  @Nonnull
+  public DetailedArtistPage verifyThatEditArtistIsNotAllowed() {
+    LOGGER.info("Verify that edit artist is not allowed");
+    editArtistBtn.shouldBe(not(exist));
+    return this;
   }
 
   @Step("Check artist photo")

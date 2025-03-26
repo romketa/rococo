@@ -14,10 +14,10 @@ import guru.qa.grpc.rococo.EditArtistRequest;
 import guru.qa.grpc.rococo.RococoArtistServiceGrpc;
 import guru.qa.rococo.data.ArtistEntity;
 import guru.qa.rococo.data.repository.ArtistRepository;
-import guru.qa.rococo.model.ArtistEvent;
+import guru.qa.rococo.model.LogJson;
 import guru.qa.rococo.model.EventType;
-import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -33,11 +33,11 @@ import org.springframework.kafka.core.KafkaTemplate;
 public class GrpcArtistService extends RococoArtistServiceGrpc.RococoArtistServiceImplBase {
 
   private final ArtistRepository artistRepository;
-  private final KafkaTemplate<String, ArtistEvent> kafkaTemplate;
+  private final KafkaTemplate<String, LogJson> kafkaTemplate;
   private static final Logger LOGGER = LoggerFactory.getLogger(GrpcArtistService.class);
 
   public GrpcArtistService(ArtistRepository artistRepository,
-      KafkaTemplate<String, ArtistEvent> kafkaTemplate) {
+      KafkaTemplate<String, LogJson> kafkaTemplate) {
     this.artistRepository = artistRepository;
     this.kafkaTemplate = kafkaTemplate;
   }
@@ -87,8 +87,14 @@ public class GrpcArtistService extends RococoArtistServiceGrpc.RococoArtistServi
         ArtistEntity.fromAddArtistGrpcMessage(addArtistRequest));
     responseObserver.onNext(ArtistEntity.toGrpcMessage(entity));
     responseObserver.onCompleted();
-    kafkaTemplate.send("artists",
-        new ArtistEvent(entity.getName(), EventType.NEW_ARTIST));
+    LogJson log = new LogJson(
+        "Artist",
+        entity.getId(),
+        "Artist" + entity.getName() + " was successfull added",
+        EventType.NEW_ARTIST,
+        LocalDateTime.now()
+    );
+    kafkaTemplate.send("artists", log);
     LOGGER.info("### Kafka topic [artists] sent message: {} {}", entity.getName(),
         EventType.NEW_ARTIST);
   }

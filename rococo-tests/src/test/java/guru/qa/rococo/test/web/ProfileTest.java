@@ -34,7 +34,7 @@ public class ProfileTest extends BaseTest {
   @User
   @ApiLogin
   @Test
-  @ScreenShotTest("img/ava/expected-spider-man.png")
+  @ScreenShotTest(value = "expected-spider-man.png")
   @DisplayName("Empty user should be filled")
   void shouldFillEmptyUser(BufferedImage expectedAvatar) throws IOException, InterruptedException {
     String firstName = randomName();
@@ -59,7 +59,7 @@ public class ProfileTest extends BaseTest {
   @User
   @ApiLogin
   @Test
-  @ScreenShotTest("img/ava/expected-spider-man.png")
+  @ScreenShotTest(value = "expected-spider-man.png")
   @DisplayName("Update not empty user")
   void shouldUpdateNotEmptyUser(BufferedImage expectedAvatar)
       throws IOException, InterruptedException {

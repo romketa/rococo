@@ -1,11 +1,21 @@
 package guru.qa.rococo.config;
 
 
+import guru.qa.rococo.label.Env;
 import javax.annotation.Nonnull;
 import org.jetbrains.annotations.NotNull;
 
+import static guru.qa.rococo.label.Env.LOCAL;
+
 enum LocalConfig implements Config {
   INSTANCE;
+
+
+  @NotNull
+  @Override
+  public Env env() {
+    return LOCAL;
+  }
 
   @Nonnull
   @Override
@@ -131,5 +141,10 @@ enum LocalConfig implements Config {
   @Override
   public String paintingGrpcAddress() {
     return "127.0.0.1";
+  }
+
+  @Override
+  public String allureDockerServiceUrl() {
+    return null;
   }
 }

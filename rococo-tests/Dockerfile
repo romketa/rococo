@@ -1,21 +1,16 @@
-# ARG DOCKER
 ARG ALLURE_DOCKER_API
-ARG GITHUB_TOKEN
 ARG BUILD_URL
 ARG HEAD_COMMIT_MESSAGE
 ARG EXECUTION_TYPE
-
-#
-# FROM ${DOCKER}
-#
+ARG BROWSER
 
 FROM eclipse-temurin:21-jdk
 
 ENV ALLURE_DOCKER_API=${ALLURE_DOCKER_API}
-ENV GITHUB_TOKEN=${GITHUB_TOKEN}
 ENV BUILD_URL=${BUILD_URL}
 ENV HEAD_COMMIT_MESSAGE=${HEAD_COMMIT_MESSAGE}
 ENV EXECUTION_TYPE=${EXECUTION_TYPE}
+ENV BROWSER=${BROWSER}
 
 WORKDIR /rococo
 COPY ./gradle ./gradle
@@ -28,4 +23,4 @@ COPY ./gradle.properties ./
 
 RUN chmod +x gradlew
 
-CMD ./gradlew test -Dtest.env=docker -Duser.timezone=Europe/Moscow
+CMD ./gradlew test --tests "guru.qa.rococo.test.web.ProfileTest.shouldFillEmptyUser" -Dtest.env=docker -Dbrowser=${BROWSER} -Duser.timezone=Europe/Moscow

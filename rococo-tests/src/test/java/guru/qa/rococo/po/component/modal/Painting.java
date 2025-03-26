@@ -57,7 +57,7 @@ public class Painting extends BaseComponent<Painting> {
     return this;
   }
 
-  @Step("Select museum {}")
+  @Step("Select museum {0}")
   @Nonnull
   public Painting selectMuseum(String museumTitle) {
     LOGGER.info("Select museum {}", museumTitle);

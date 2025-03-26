@@ -60,7 +60,8 @@ public abstract class RestClient {
       }
     }
     okHttpBuilder.addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(loggingLevel));
-    okHttpBuilder.addNetworkInterceptor(new AllureOkHttp3().setRequestTemplate("request.ftl").setResponseTemplate("response.ftl"));
+//    comment due to problems with send result to allure docker service - Java heap space
+//    okHttpBuilder.addNetworkInterceptor(new AllureOkHttp3().setRequestTemplate("request.ftl").setResponseTemplate("response.ftl"));
     okHttpBuilder.cookieJar(
         new JavaNetCookieJar(
             new CookieManager(

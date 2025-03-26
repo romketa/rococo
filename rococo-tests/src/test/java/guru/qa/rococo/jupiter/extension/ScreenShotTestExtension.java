@@ -1,6 +1,8 @@
 package guru.qa.rococo.jupiter.extension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.qa.rococo.config.Config;
+import guru.qa.rococo.label.Env;
 import io.qameta.allure.Allure;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -16,15 +18,19 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
 import org.junit.platform.commons.support.AnnotationSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import guru.qa.rococo.jupiter.annotation.ScreenShotTest;
 import guru.qa.rococo.model.allure.ScreenDif;
 
 public class ScreenShotTestExtension implements ParameterResolver, TestExecutionExceptionHandler {
 
+  private static final Logger LOG = LoggerFactory.getLogger(ScreenShotTestExtension.class);
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(
       ScreenShotTestExtension.class);
 
+  private static final Config CFG = Config.getInstance();
   private static final ObjectMapper objectMapper = new ObjectMapper();
   private static final Base64.Encoder encoder = Base64.getEncoder();
 
@@ -40,9 +46,13 @@ public class ScreenShotTestExtension implements ParameterResolver, TestExecution
   @Override
   public BufferedImage resolveParameter(ParameterContext parameterContext,
       ExtensionContext extensionContext) throws ParameterResolutionException {
+    final ScreenShotTest screenShotTest = extensionContext.getRequiredTestMethod()
+        .getAnnotation(ScreenShotTest.class);
     return ImageIO.read(new ClassPathResource(
-        extensionContext.getRequiredTestMethod().getAnnotation(ScreenShotTest.class)
-            .value()).getInputStream());
+        Env.LOCAL.equals(CFG.env())
+            ? "/img/local/" + screenShotTest.value()
+            : "/img/selenoid/" + screenShotTest.value()
+    ).getInputStream());
   }
 
   @Override
@@ -69,14 +79,17 @@ public class ScreenShotTestExtension implements ParameterResolver, TestExecution
         objectMapper.writeValueAsString(screenDif)
     );
     ScreenShotTest annotation = context.getRequiredTestMethod().getAnnotation(ScreenShotTest.class);
+
     if (annotation.rewriteExpected()) {
-      String expectedPath = "src/test/resources/" + context.getRequiredTestMethod()
-          .getAnnotation(ScreenShotTest.class).value();
+      final String path = Env.LOCAL.equals(CFG.env())
+          ? "rococo-tests/src/test/resources/img/local/"
+          : "rococo-tests/src/test/resources/img/selenoid/";
+      String expectedPath = path + annotation.value();
       try {
         Files.write(Path.of(expectedPath), imageToBytes(actual));
-        System.out.println("Expected file rewrote");
+        LOG.info("Expected file rewrote {}", expectedPath);
       } catch (IOException e) {
-        e.printStackTrace();
+        LOG.error("Cannot find or write the file by path {}", expectedPath);
       }
     }
     throw throwable;

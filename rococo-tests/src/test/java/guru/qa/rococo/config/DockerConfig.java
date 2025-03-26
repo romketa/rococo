@@ -1,10 +1,19 @@
 package guru.qa.rococo.config;
 
+import guru.qa.rococo.label.Env;
 import javax.annotation.Nonnull;
 import org.jetbrains.annotations.NotNull;
 
+import static guru.qa.rococo.label.Env.DOCKER;
+
 enum DockerConfig implements Config {
   INSTANCE;
+
+  @NotNull
+  @Override
+  public Env env() {
+    return DOCKER;
+  }
 
   @Nonnull
   @Override
@@ -124,5 +133,13 @@ enum DockerConfig implements Config {
   @Override
   public String countryJdbcUrl() {
     return "jdbc:mysql://rococo-all-db:3306/rococo-country";
+  }
+
+  @Override
+  public String allureDockerServiceUrl() {
+    final String url = System.getenv("ALLURE_DOCKER_API");
+    return url == null
+        ? "http://allure:5050/"
+        : url;
   }
 }

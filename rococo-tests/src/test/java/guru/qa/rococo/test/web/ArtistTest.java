@@ -70,6 +70,18 @@ public class ArtistTest extends BaseTest {
   }
 
   @Test
+  @Artist
+  @DisplayName("Not authorized user cannot edit artist")
+  void notAuthorizedUserCannotEditArtist(ArtistJson artist) {
+    artistsPage
+        .open()
+        .checkThatPageLoaded()
+        .filterArtistsByName(artist.name())
+        .openDetailedArtistInfo(artist.name())
+        .verifyThatEditArtistIsNotAllowed();
+  }
+
+  @Test
   @DisplayName("Message 'No Artists found' should be displayed while artists searching")
   void messageNoArtistsFoundShouldBeDisplayedWhileSearchingArtists() {
 
@@ -83,7 +95,7 @@ public class ArtistTest extends BaseTest {
   @Test
   @User
   @ApiLogin
-  @ScreenShotTest(value = "img/artists/expected-repin.png")
+  @ScreenShotTest(value = "expected-repin.png")
   @DisplayName("Authorized user can add artist")
   void authorizedUserCanAddArtist(BufferedImage image) throws IOException, InterruptedException {
     String name = randomArtistName();
@@ -151,7 +163,7 @@ public class ArtistTest extends BaseTest {
   @User
   @ApiLogin
   @Artist
-  @ScreenShotTest("img/artists/expected-dali.png")
+  @ScreenShotTest(value = "expected-dali.png")
   @DisplayName("User can modify already created artist")
   void userCanModifyArtist(ArtistJson artist, BufferedImage image)
       throws IOException, InterruptedException {
@@ -177,7 +189,7 @@ public class ArtistTest extends BaseTest {
   @ApiLogin
   @Artist
   @Museum
-  @ScreenShotTest("img/paintings/expected-burlaks.png")
+  @ScreenShotTest(value = "expected-burlaks.png")
   @DisplayName("User can add painting for artist")
   void userCanAddPaintingForArtist(ArtistJson artist, MuseumJson museum, BufferedImage image)
       throws IOException, InterruptedException {
@@ -204,7 +216,7 @@ public class ArtistTest extends BaseTest {
   @Museum
   @Artist
   @Painting
-  @ScreenShotTest("img/paintings/expected-burlaks.png")
+  @ScreenShotTest(value = "expected-burlaks.png")
   @DisplayName("User can add painting for artist with already added painting")
   void addPaintingForArtistWithPainting(ArtistJson artist, MuseumJson museum, BufferedImage image)
       throws IOException, InterruptedException {

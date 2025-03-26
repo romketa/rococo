@@ -46,6 +46,9 @@ spring:
     bootstrap-servers: 'localhost:9092'
   datasource:
     url: 'jdbc:mysql://localhost:3306/rococo-artist?serverTimezone=UTC&createDatabaseIfNotExist=true'
+  jpa:
+    hibernate:
+      ddl-auto: validate
 ---
 spring:
   config:
@@ -55,4 +58,7 @@ spring:
     bootstrap-servers: 'docker:9092'
   datasource:
     url: 'jdbc:mysql://rococo-all-db:3306/rococo-artist?serverTimezone=UTC&createDatabaseIfNotExist=true'
+  jpa:
+    hibernate:
+      ddl-auto: validate
 ---
