@@ -14,22 +14,31 @@ import guru.qa.grpc.rococo.MuseumResponse;
 import guru.qa.grpc.rococo.RococoMuseumServiceGrpc;
 import guru.qa.rococo.data.MuseumEntity;
 import guru.qa.rococo.data.repository.MuseumRepository;
+import guru.qa.rococo.model.EventType;
+import guru.qa.rococo.model.LogJson;
 import io.grpc.stub.StreamObserver;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.grpc.server.service.GrpcService;
+import org.springframework.kafka.core.KafkaTemplate;
 
 @GrpcService
 public class GrpcMuseumService extends RococoMuseumServiceGrpc.RococoMuseumServiceImplBase {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(GrpcMuseumService.class);
   private final MuseumRepository museumRepository;
+  private final KafkaTemplate<String, LogJson> kafkaTemplate;
 
-  public GrpcMuseumService(MuseumRepository museumRepository) {
+  public GrpcMuseumService(MuseumRepository museumRepository, KafkaTemplate<String, LogJson> kafkaTemplate) {
     this.museumRepository = museumRepository;
+    this.kafkaTemplate = kafkaTemplate;
   }
 
   @Override
@@ -76,6 +85,16 @@ public class GrpcMuseumService extends RococoMuseumServiceGrpc.RococoMuseumServi
         MuseumEntity.fromAddMuseumGrpcMessage(addMuseumRequest));
     responseObserver.onNext(MuseumEntity.toGrpcMessage(entity));
     responseObserver.onCompleted();
+    LogJson log = new LogJson(
+        "Museum",
+        entity.getId(),
+        "Museum " + entity.getTitle() + " was successfully added",
+        EventType.NEW_ENTITY,
+        LocalDateTime.now()
+    );
+    kafkaTemplate.send("museums", log);
+    LOGGER.info("### Kafka topic [museums] sent message: {} {}", entity.getTitle(),
+        EventType.NEW_ENTITY);
   }
 
   @Override
@@ -89,6 +108,17 @@ public class GrpcMuseumService extends RococoMuseumServiceGrpc.RococoMuseumServi
               museumRepository.save(museumEntity);
               responseObserver.onNext(MuseumEntity.toGrpcMessage(museumEntity));
               responseObserver.onCompleted();
+
+              LogJson log = new LogJson(
+                  "Museum",
+                  museumEntity.getId(),
+                  "Museum " + museumEntity.getTitle() + " was successfully updated",
+                  EventType.EDIT_ENTITY,
+                  LocalDateTime.now()
+              );
+              kafkaTemplate.send("museums", log);
+              LOGGER.info("### Kafka topic [museums] sent message: {} {}", museumEntity.getTitle(),
+                  EventType.EDIT_ENTITY);
             }, () -> responseObserver.onError(
                 NOT_FOUND.withDescription("Museum not found by id: " + museumId)
                     .asRuntimeException()

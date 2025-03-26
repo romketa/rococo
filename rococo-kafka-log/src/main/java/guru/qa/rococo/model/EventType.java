@@ -1,6 +1,6 @@
 package guru.qa.rococo.model;
 
 public enum EventType {
-  NEW_ARTIST,
-  EDIT_ARTIST
+  NEW_ENTITY,
+  EDIT_ENTITY
 }

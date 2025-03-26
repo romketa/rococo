@@ -47,11 +47,6 @@ spring:
   config:
     activate:
       on-profile: 'local'
-  autoconfigure:
-    exclude:
-      - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
-      - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
-      - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
   kafka:
     bootstrap-servers: 'localhost:9092'
     consumer:
@@ -59,18 +54,14 @@ spring:
       auto-offset-reset: earliest
   datasource:
     url: 'jdbc:mysql://localhost:3306/rococo-userdata?serverTimezone=UTC&createDatabaseIfNotExist=true'
-rococo-userdata:
-  base-uri: 'http://127.0.0.1:8089'
+  jpa:
+    hibernate:
+      ddl-auto: validate
 ---
 spring:
   config:
     activate:
       on-profile: 'docker'
-  autoconfigure:
-    exclude:
-      - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
-      - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
-      - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
   kafka:
     bootstrap-servers: 'kafka:9092'
     consumer:
@@ -78,5 +69,6 @@ spring:
       auto-offset-reset: earliest
   datasource:
     url: 'jdbc:mysql://rococo-all-db:3306/rococo-userdata?serverTimezone=UTC&createDatabaseIfNotExist=true'
-rococo-userdata:
-  base-uri: 'http://userdata.rococo.dc:8089'
+  jpa:
+    hibernate:
+      ddl-auto: validate

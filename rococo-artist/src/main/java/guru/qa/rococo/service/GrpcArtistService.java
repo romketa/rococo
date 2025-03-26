@@ -90,13 +90,13 @@ public class GrpcArtistService extends RococoArtistServiceGrpc.RococoArtistServi
     LogJson log = new LogJson(
         "Artist",
         entity.getId(),
-        "Artist" + entity.getName() + " was successfull added",
-        EventType.NEW_ARTIST,
+        "Artist " + entity.getName() + " was successfully added",
+        EventType.NEW_ENTITY,
         LocalDateTime.now()
     );
     kafkaTemplate.send("artists", log);
     LOGGER.info("### Kafka topic [artists] sent message: {} {}", entity.getName(),
-        EventType.NEW_ARTIST);
+        EventType.NEW_ENTITY);
   }
 
   @Override
@@ -110,6 +110,17 @@ public class GrpcArtistService extends RococoArtistServiceGrpc.RococoArtistServi
               artistRepository.save(artistEntity);
               responseObserver.onNext(ArtistEntity.toGrpcMessage(artistEntity));
               responseObserver.onCompleted();
+
+              LogJson log = new LogJson(
+                  "Artist",
+                  artistEntity.getId(),
+                  "Artist " + artistEntity.getName() + " was successfully updated",
+                  EventType.EDIT_ENTITY,
+                  LocalDateTime.now()
+              );
+              kafkaTemplate.send("artists", log);
+              LOGGER.info("### Kafka topic [artists] sent message: {} {}", artistEntity.getName(),
+                  EventType.EDIT_ENTITY);
             }, () -> responseObserver.onError(
                 NOT_FOUND.withDescription("Artist not found by id: " + artistId)
                     .asRuntimeException()
