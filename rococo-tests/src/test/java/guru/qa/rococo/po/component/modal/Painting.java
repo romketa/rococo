@@ -87,7 +87,7 @@ public class Painting extends BaseComponent<Painting> {
             + " attempts");
   }
 
-  @Step("Select author {}")
+  @Step("Select author {0}")
   @Nonnull
   public Painting selectAuthor(String author) {
     LOGGER.info("Select author {}", author);
