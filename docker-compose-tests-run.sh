@@ -15,7 +15,7 @@ echo '### Java version ###'
 java --version
 
 docker_container=rococo-tests
-docker_image=romketa/rococo-tests:latest
+docker_image=PREFIX/rococo-tests:latest
 
 if [ ! -z "$docker_container" ]; then
   echo "### Stop container with tests: $docker_container ###"
@@ -30,10 +30,10 @@ fi
 
 echo '### Java version ###'
 java --version
-#bash ./gradlew clean
-#bash ./gradlew jibDockerBuild -x :rococo-tests:test
+bash ./gradlew clean
+bash ./gradlew jibDockerBuild -x :rococo-tests:test
 
-#docker pull selenoid/vnc_chrome:127.0
+docker pull selenoid/vnc_chrome:127.0
 docker pull selenoid/firefox:125.0
 docker compose -f docker-compose.test.yml up -d
 docker ps -a
