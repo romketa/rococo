@@ -23,4 +23,4 @@ COPY ./gradle.properties ./
 
 RUN chmod +x gradlew
 
-CMD ./gradlew test --tests "guru.qa.rococo.test.web.ProfileTest.shouldFillEmptyUser" -Dtest.env=docker -Dbrowser=${BROWSER} -Duser.timezone=Europe/Moscow
+CMD ./gradlew test -Dtest.env=docker -Duser.timezone=Europe/Moscow

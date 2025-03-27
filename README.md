@@ -231,11 +231,19 @@ $ docker logs -f rococo-tests
 bash docker-compose-test.sh CHROME
 bash docker-compose-test.sh FIREFOX
 ```
-По умолчанию, если не передавать в команде название браузера, используется Chrome.
+По умолчанию, если не передавать в команде название браузера, используется CHROME.
 
-Чтобы избежать пересборку и только перезапустить тестовый контейнер:
+Если передать флаг tests-only то рестартанут (удалятся и установятся с нуля) только тестовые контейнеры (rococo-tests, allure, allure-ui, selenoid, selenoid-ui)
+
 ```posh
-bash docker-compose-tests-run.sh
+bash docker-compose-tests.sh --tests-only
+bash docker-compose-tests.sh FIREFOX --tests-only - тесты запустятся на браузере firefox 
+```
+
+Если передать флаг rococo-tests-only то рестартанут (удалятся и установятся с нуля) только контейнер с тестами (rococo-tests). Пригодится если хочется хранить историю запуска тестов в аллюре
+```posh
+bash docker-compose-tests.sh --rococo-tests-only
+bash docker-compose-tests.sh FIREFOX --rococo-tests-only - тесты запустятся на браузере firefox
 ```
 <a name="allure-report-example"></a>
 ## Пример отчета Allure
