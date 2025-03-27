@@ -54,9 +54,6 @@ spring:
       auto-offset-reset: earliest
   datasource:
     url: 'jdbc:mysql://localhost:3306/rococo-userdata?serverTimezone=UTC&createDatabaseIfNotExist=true'
-  jpa:
-    hibernate:
-      ddl-auto: validate
 ---
 spring:
   config:
@@ -69,6 +66,3 @@ spring:
       auto-offset-reset: earliest
   datasource:
     url: 'jdbc:mysql://rococo-all-db:3306/rococo-userdata?serverTimezone=UTC&createDatabaseIfNotExist=true'
-  jpa:
-    hibernate:
-      ddl-auto: validate
