@@ -14,6 +14,7 @@ import io.grpc.MethodDescriptor;
 public class GrpcConsoleInterceptor implements  io.grpc.ClientInterceptor {
 
   private static final JsonFormat.Printer printer = JsonFormat.printer();
+  private static final int MAX_MESSAGE_LENGTH = 300;
 
   @Override
   public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(MethodDescriptor<ReqT, RespT> methodDescriptor, CallOptions callOptions, Channel channel) {
@@ -24,7 +25,8 @@ public class GrpcConsoleInterceptor implements  io.grpc.ClientInterceptor {
       @Override
       public void sendMessage(Object message) {
         try {
-          System.out.println("REQUEST: " +  printer.print((MessageOrBuilder) message));
+          String jsonMessage = printer.print((MessageOrBuilder) message);
+          logMessage("REQUEST", jsonMessage);
         } catch (InvalidProtocolBufferException e) {
           throw new RuntimeException(e);
         }
@@ -38,7 +40,8 @@ public class GrpcConsoleInterceptor implements  io.grpc.ClientInterceptor {
           @Override
           public void onMessage(Object message) {
             try {
-              System.out.println("RESPONSE: " +  printer.print((MessageOrBuilder) message));
+              String jsonMessage = printer.print((MessageOrBuilder) message);
+              logMessage("RESPONSE", jsonMessage);
             } catch (InvalidProtocolBufferException e) {
               throw new RuntimeException(e);
             }
@@ -51,6 +54,13 @@ public class GrpcConsoleInterceptor implements  io.grpc.ClientInterceptor {
           }
         };
         super.start(clientCallListener, headers);
+      }
+      private void logMessage(String prefix, String message) {
+        if (message.length() > MAX_MESSAGE_LENGTH) {
+          System.out.println(prefix + ": " + message.substring(0, MAX_MESSAGE_LENGTH));
+        } else {
+          System.out.println(prefix + ": " + message);
+        }
       }
     };
   }

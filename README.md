@@ -248,7 +248,7 @@ bash docker-compose-tests.sh FIREFOX --rococo-tests-only - тесты запус
 <a name="allure-report-example"></a>
 ## Пример отчета Allure
 
-В результате можно видеть красивый отчет Allure по [ссылке](http://allure:5252/allure-docker-service-ui/project/rococo)
+В результате можно видеть красивый отчет Allure по [ссылке](http://allure:5252/allure-docker-service-ui/project/romketa-rococo)
 
 ![allure1.png](img%2Fallure1.png)
 ![allure2.png](img%2Fallure2.png)

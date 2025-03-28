@@ -12,6 +12,7 @@ jobs:
       PREFIX: romketa
       ARCH: amd64
       ALLURE_DOCKER_API: ${{ secrets.ALLURE_DOCKER_API }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       EXECUTION_TYPE: github
     steps:
