@@ -21,11 +21,11 @@ public record MuseumJson(
         @JsonProperty("description")
         String description,
 
-        @JsonProperty("geo")
-        GeoJson geo,
-
         @JsonProperty("photo")
-        String photo
+        String photo,
+
+        @JsonProperty("geo")
+        GeoJson geo
 ) {
 
     public static MuseumJson fromGrpcMessage(MuseumResponse response) {

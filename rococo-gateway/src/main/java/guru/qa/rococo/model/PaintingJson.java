@@ -30,6 +30,9 @@ public class PaintingJson {
     @JsonProperty("description")
     String description;
 
+    @JsonProperty("content")
+    String content;
+
     @NotNull(message = "Museum can not be null")
     @JsonProperty("museum")
     MuseumJson museum;
@@ -38,9 +41,6 @@ public class PaintingJson {
     @JsonProperty("artist")
     ArtistJson artist;
 
-    @JsonProperty("content")
-    String content;
-
     public static @Nonnull PaintingJson fromGrpcMessage(@Nonnull PaintingResponse response) {
         MuseumJson museum = new MuseumJson(fromString(response.getMuseumId().getId().toStringUtf8()), null, null, null, null);
         ArtistJson artist = new ArtistJson(fromString(response.getArtistId().getId().toStringUtf8()), null, null, null);
@@ -48,9 +48,9 @@ public class PaintingJson {
                 fromString(response.getId().toStringUtf8()),
                 response.getTitle(),
                 response.getDescription(),
+                response.getContent().toStringUtf8(),
                 museum,
-                artist,
-                response.getContent().toStringUtf8()
+                artist
         );
     }
 
