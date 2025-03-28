@@ -37,7 +37,7 @@ public interface Config {
 
   @Nonnull
   default String projectId() {
-    return "rococo";
+    return "rococo-romketa";
   }
 
   @Nonnull
